@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.gerdiproject</groupId>
+	<artifactId>ArcGIS-Harvester-Service</artifactId>
+	<version>1.0</version>
+    <packaging>war</packaging>
+
+	<build>
+        <finalName>arcgis-harvester-${project.version}</finalName>
+        <directory>target/</directory>
+        <plugins>
+		
+			<!-- Add dependencies to the /lib/ folder-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/../lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			
+			<!-- Compile in UTF-8 with Java 8 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+				  <source>1.8</source>
+				  <target>1.8</target>
+				  <encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			  
+			<!-- Generate war and move it to /target/ folder -->          
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+				<configuration>
+				  <outputDirectory>${project.build.directory}</outputDirectory>
+				</configuration>
+            </plugin>
+			<!-- Clean up unneeded files -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludeDefaultDirectories>true</excludeDefaultDirectories>
+					<filesets>
+						<fileset>
+							<directory>${basedir}</directory>
+							<includes>**/target/**</includes>
+							<excludes>
+								<exclude>**/*.war</exclude>
+							</excludes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+    </build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>de.gerdiproject</groupId>
+			<artifactId>Restful-Harvester-Library</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+</project>
