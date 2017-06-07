@@ -4,12 +4,12 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.gerdiproject</groupId>
-	<artifactId>ArcGIS-Harvester-Service</artifactId>
+	<artifactId>ArcGis-HarvesterService</artifactId>
 	<version>1.0</version>
     <packaging>war</packaging>
 
 	<build>
-        <finalName>arcgis-harvester-${project.version}</finalName>
+        <finalName>${project.artifactId}_${project.version}</finalName>
         <directory>target/</directory>
         <plugins>
 		
@@ -89,7 +89,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.gerdiproject</groupId>
-			<artifactId>Restful-Harvester-Library</artifactId>
+			<artifactId>RestfulHarvester-Library</artifactId>
 			<version>1.0</version>
 		</dependency>
 	</dependencies>

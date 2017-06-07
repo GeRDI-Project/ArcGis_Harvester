@@ -21,6 +21,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 
 	private final static String VIEW_URL = "%s/home/item.html?id=%s";
 	private final static String LOGO_URL = "%s/sharing/rest/content/items/%s/info/%s";
+	
 
 	private final String baseUrl;
 	private final String groupId;
@@ -32,17 +33,21 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * 
 	 * @param harvestedDocuments
 	 *            the list in which harvested documents are stored
+	 * @param groupName
+	 *            the title of the group of maps that is to be harvested
 	 * @param groupId
 	 *            the unique ID of the group of maps that is to be harvested
 	 */
-	public GroupHarvester( IJsonArray harvestedDocuments, String baseUrl, String groupId )
+	public GroupHarvester( String baseUrl, String groupName, String groupId )
 	{
-		super( harvestedDocuments, 1 );
+		super( 1 );
 
 		this.baseUrl = baseUrl;
 		this.groupId = groupId;
 		this.groupTags = new LinkedList<>();
+		this.name = groupName;
 	}
+	
 
 	/**
 	 * Aside from the inherited functionality, a list of shared search tags that
