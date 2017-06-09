@@ -18,7 +18,6 @@
  */
 package de.gerdiproject.harvest.harvester;
 
-import de.gerdiproject.harvest.MainContext;
 import de.gerdiproject.harvest.harvester.sub.GroupHarvester;
 import de.gerdiproject.harvest.utils.HttpRequester;
 import de.gerdiproject.json.IJsonArray;
@@ -125,7 +124,6 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
 		catch (UnsupportedEncodingException e)
 		{
 			// this should never happen, because UTF-8 is a valid encoding
-			MainContext.getLogger().log( e.toString() );
 			return null;
 		}
 		
