@@ -9,7 +9,6 @@ import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
 import de.gerdiproject.harvest.harvester.JsonConst;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
-import de.gerdiproject.logger.ILogger;
 
 public class GroupHarvester extends AbstractJsonArrayHarvester
 {
@@ -54,9 +53,9 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * relate to the map group is retrieved.
 	 */
 	@Override
-	public void init( ILogger logger )
+	public void init()
 	{
-		super.init( logger );
+		super.init();
 		initGroupTags();
 	}
 
