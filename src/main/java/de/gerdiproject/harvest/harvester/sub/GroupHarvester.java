@@ -66,7 +66,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * 
 	 * @return
 	 */
-	protected IJsonArray getEntries()
+	protected IJsonArray getJsonArray()
 	{
 		IJsonArray entries = jsonBuilder.createArray();
 
@@ -95,7 +95,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * Creates a document out of a single map JSON object.
 	 */
 	@Override
-	protected List<IJsonObject> harvestEntry( IJsonObject map )
+	protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject map )
 	{
 		// retrieve document fields
 		String label = getLabel( map );
