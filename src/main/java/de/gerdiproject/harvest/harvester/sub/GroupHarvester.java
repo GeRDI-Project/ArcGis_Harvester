@@ -39,12 +39,11 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 */
 	public GroupHarvester( String baseUrl, String groupName, String groupId )
 	{
-		super( 1 );
+		super( groupName, 1 );
 
 		this.baseUrl = baseUrl;
 		this.groupId = groupId;
 		this.groupTags = new LinkedList<>();
-		this.name = groupName;
 	}
 	
 
