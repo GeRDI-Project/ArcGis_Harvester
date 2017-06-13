@@ -39,12 +39,11 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 */
 	public GroupHarvester( String baseUrl, String groupName, String groupId )
 	{
-		super( 1 );
+		super( groupName, 1 );
 
 		this.baseUrl = baseUrl;
 		this.groupId = groupId;
 		this.groupTags = new LinkedList<>();
-		this.name = groupName;
 	}
 	
 
@@ -66,7 +65,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * 
 	 * @return
 	 */
-	protected IJsonArray getEntries()
+	protected IJsonArray getJsonArray()
 	{
 		IJsonArray entries = jsonBuilder.createArray();
 
@@ -95,7 +94,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 	 * Creates a document out of a single map JSON object.
 	 */
 	@Override
-	protected List<IJsonObject> harvestEntry( IJsonObject map )
+	protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject map )
 	{
 		// retrieve document fields
 		String label = getLabel( map );
