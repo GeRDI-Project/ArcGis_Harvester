@@ -37,10 +37,10 @@ public class ContextListener extends AbstractContextListener
     }
 
 
-	@Override
-	protected String createServiceName()
-	{
-		return "ArcGisHarvesterService";
-	}
+    @Override
+    protected String createServiceName()
+    {
+        return "ArcGisHarvesterService";
+    }
 
 }
