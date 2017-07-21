@@ -3,21 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.gerdi-project</groupId>
+	<parent>
+		<groupId>de.gerdi-project</groupId>
+		<artifactId>GeRDI-parent-harvester</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	
 	<artifactId>ArcGis-HarvesterService</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
   
 	<name>ArcGIS Harvester</name>
 	<description>This is a restful harvester for retrieving data from: www.arcgis.com</description>
-	<url>http://www.gerdi-project.de</url>
-  
-	<licenses>
-	  <license>
-		<name>The Apache License, Version 2.0</name>
-		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-	  </license>
-	</licenses>
   
 	<developers>
 		<developer>
@@ -27,47 +24,4 @@
 			<organizationUrl>http://www.uni-kiel.de/index-e.shtml</organizationUrl>
 		</developer>
 	</developers>
-
-	<build>
-        <finalName>${project.artifactId}_${project.version}</finalName>
-        <directory>target/</directory>
-        <plugins>			
-			<!-- Compile in UTF-8 with Java 8 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-				  <source>1.8</source>
-				  <target>1.8</target>
-				  <encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			  
-			<!-- Generate war and move it to /target/ folder -->          
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-				<configuration>
-				  <outputDirectory>${project.build.directory}</outputDirectory>
-				</configuration>
-            </plugin>
-		</plugins>
-    </build>
-	
-	<dependencies>
-		<dependency>
-			<groupId>de.gerdi-project</groupId>
-			<artifactId>RestfulHarvester-Library</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	
-	<repositories>
-		<repository>
-			<id>Sonatype</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-	</repositories>
 </project>
