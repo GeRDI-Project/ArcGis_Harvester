@@ -12,7 +12,6 @@
 	<artifactId>ArcGis-HarvesterService</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-  
 	<name>ArcGIS Harvester</name>
 	<description>This is a restful harvester for retrieving data from: www.arcgis.com</description>
   
@@ -24,4 +23,12 @@
 			<organizationUrl>http://www.uni-kiel.de/index-e.shtml</organizationUrl>
 		</developer>
 	</developers>
+	
+	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
+	<repositories>
+		<repository>
+			<id>Sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 </project>
