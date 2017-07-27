@@ -161,7 +161,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
      */
     protected Date getLastUpdate(IJsonObject map)
     {
-        int unixTimestamp = map.getInt(JsonConst.MODIFIED);
+        long unixTimestamp = (Long) map.get(JsonConst.MODIFIED);
         return new Date(unixTimestamp);
     }
 
@@ -279,7 +279,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
             String mapTag = (String) mapVal;
 
             // only add tag if it is not a year
-            if (!YEAR_PATTERN.matcher(mapTag.toString()).matches())
+            if (!YEAR_PATTERN.matcher(mapTag).matches())
                 mapTagsArray.add(mapTag);
         }
 
