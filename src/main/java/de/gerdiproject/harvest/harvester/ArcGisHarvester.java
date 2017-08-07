@@ -47,19 +47,17 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
 
     /**
      * Simple constructor that passes on the inherited one.
-     * @param harvestedDocuments a list in which harvested documents are stored
-     * @param subHarvesters an array of harvesters that can run concurrently
      */
-    public ArcGisHarvester(Iterable<AbstractHarvester> subHarvesters)
+    public ArcGisHarvester()
     {
-        super(subHarvesters);
+        super(createSubHarvesters());
     }
 
     /**
      * Creates an ArcGisHarvester instance by checking all map groups in ArcGIS and Esri first.
      * @return
      */
-    public static ArcGisHarvester createInstance()
+    private static List<AbstractHarvester> createSubHarvesters()
     {
         // create Esri harvesters
         List<AbstractHarvester> subHarvesters = createEsriHarvesters();
@@ -68,7 +66,7 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
         List<AbstractHarvester> arcGisSubHarvesters = createArcGisHarvesters();
         arcGisSubHarvesters.forEach((AbstractHarvester a) -> subHarvesters.add(a));
 
-        return new ArcGisHarvester(subHarvesters);
+        return subHarvesters;
     }
 
     /**

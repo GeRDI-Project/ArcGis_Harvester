@@ -18,7 +18,6 @@
  */
 package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.harvester.AbstractHarvester;
 import de.gerdiproject.harvest.harvester.ArcGisHarvester;
 import javax.servlet.annotation.WebListener;
 
@@ -30,15 +29,16 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ContextListener extends AbstractContextListener
 {
+    @SuppressWarnings("unchecked")
     @Override
-    protected AbstractHarvester createHarvester()
+    protected Class<ArcGisHarvester> getMainHarvesterClass()
     {
-        return ArcGisHarvester.createInstance();
+        return ArcGisHarvester.class;
     }
 
 
     @Override
-    protected String createServiceName()
+    protected String getServiceName()
     {
         return "ArcGisHarvesterService";
     }
