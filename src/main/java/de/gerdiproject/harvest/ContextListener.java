@@ -27,20 +27,6 @@ import javax.servlet.annotation.WebListener;
  * @author row
  */
 @WebListener
-public class ContextListener extends AbstractContextListener
+public class ContextListener extends AbstractContextListener<ArcGisHarvester>
 {
-    @Override
-    @SuppressWarnings("unchecked")
-    protected Class<ArcGisHarvester> getMainHarvesterClass()
-    {
-        return ArcGisHarvester.class;
-    }
-
-
-    @Override
-    protected String getServiceName()
-    {
-        return "ArcGisHarvesterService";
-    }
-
 }
