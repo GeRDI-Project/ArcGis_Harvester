@@ -27,6 +27,6 @@ import javax.servlet.annotation.WebListener;
  * @author row
  */
 @WebListener
-public class ContextListener extends AbstractContextListener<ArcGisHarvester>
+public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
 {
 }
