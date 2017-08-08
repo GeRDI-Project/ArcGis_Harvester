@@ -29,8 +29,8 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ContextListener extends AbstractContextListener
 {
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     protected Class<ArcGisHarvester> getMainHarvesterClass()
     {
         return ArcGisHarvester.class;
