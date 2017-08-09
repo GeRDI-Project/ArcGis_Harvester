@@ -43,20 +43,9 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 
         this.baseUrl = baseUrl;
         this.groupId = groupId;
-        this.groupTags = new LinkedList<>();
+        this.groupTags = createGroupTags();
     }
 
-
-    /**
-     * Aside from the inherited functionality, a list of shared search tags that
-     * relate to the map group is retrieved.
-     */
-    @Override
-    public void init()
-    {
-        super.init();
-        initGroupTags();
-    }
 
     /**
      * Retrieves all maps of the specified group. Maps can only be retrieved in
@@ -161,8 +150,8 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
      */
     protected Date getLastUpdate(IJsonObject map)
     {
-        int unixTimestamp = map.getInt(JsonConst.MODIFIED);
-        return new Date(unixTimestamp);
+        Number unixTimestamp = (Number) map.get(JsonConst.MODIFIED);
+        return new Date(unixTimestamp.longValue());
     }
 
     /**
@@ -279,7 +268,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
             String mapTag = (String) mapVal;
 
             // only add tag if it is not a year
-            if (!YEAR_PATTERN.matcher(mapTag.toString()).matches())
+            if (!YEAR_PATTERN.matcher(mapTag).matches())
                 mapTagsArray.add(mapTag);
         }
 
@@ -290,7 +279,7 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
         return mapTagsArray;
     }
 
-    protected void initGroupTags()
+    protected List<String> createGroupTags()
     {
         String groupDetailsUrl = String.format(GROUP_DETAILS_URL, baseUrl, groupId);
 
@@ -301,14 +290,15 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
         // retrieve this group from the array of groups
         IJsonObject groupDetails = multiGroupDetailsArray.getJsonObject(0);
 
-        // clear old tags
-        this.groupTags.clear();
+        List<String> newGroupTags = new LinkedList<>();
 
         // add group title
-        this.groupTags.add(groupDetails.getString(JsonConst.TITLE));
+        newGroupTags.add(groupDetails.getString(JsonConst.TITLE));
 
         // add group detail tags
         IJsonArray groupDetailTags = groupDetails.getJsonArray(JsonConst.TAGS);
-        groupDetailTags.forEach((Object gt) -> this.groupTags.add((String) gt));
+        groupDetailTags.forEach((Object gt) -> newGroupTags.add((String) gt));
+
+        return newGroupTags;
     }
 }
