@@ -24,7 +24,7 @@ import javax.servlet.annotation.WebListener;
 /**
  * This class initializes the FAOSTAT harvester and a logger
  *
- * @author row
+ * @author Robin Weiss
  */
 @WebListener
 public class ArcGisContextListener extends ContextListener<ArcGisHarvester>

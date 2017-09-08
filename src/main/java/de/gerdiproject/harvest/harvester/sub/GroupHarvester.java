@@ -1,30 +1,49 @@
+/*
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package de.gerdiproject.harvest.harvester.sub;
 
-import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
+import de.gerdiproject.harvest.IDocument;
+import de.gerdiproject.harvest.harvester.AbstractListHarvester;
+import de.gerdiproject.harvest.utils.LinkParser;
+import de.gerdiproject.harvest.utils.ArcGisConstants;
+import de.gerdiproject.harvest.utils.ArcGisDownloader;
+import de.gerdiproject.harvest.utils.MapParser;
+import de.gerdiproject.json.arcgis.FeaturedGroup;
+import de.gerdiproject.json.arcgis.Map;
+import de.gerdiproject.json.arcgis.MapsQueryResult;
+import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.Subject;
 
-import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.JsonConst;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
-
-public class GroupHarvester extends AbstractJsonArrayHarvester
+/**
+ * Harvests a group from ArcGis.
+ *
+ * @author Robin Weiss
+ */
+public class GroupHarvester extends AbstractListHarvester<Map>
 {
-    private final static String GROUP_DETAILS_URL = "%s/sharing/rest/community/groups?q=(id%%3A%s)&num=1&f=json";
-
-    private final static String MAPS_URL = "%s/sharing/rest/search?q=%%20group%%3A%s%%20&sortField=title&sortOrder=asc&start=%d&num=100&f=json";
-
-    private final static Pattern YEAR_PATTERN = Pattern.compile("\\d\\d\\d\\d");
-
-    private final static String VIEW_URL = "%s/home/item.html?id=%s";
-    private final static String LOGO_URL = "%s/sharing/rest/content/items/%s/info/%s";
-
-
     private final String baseUrl;
     private final String groupId;
-    private final List<String> groupTags;
+    private final List<Subject> groupTags;
 
     /**
      * Creates a (sub-) harvester for a group of maps. Each group has a unique
@@ -43,9 +62,9 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
 
         this.baseUrl = baseUrl;
         this.groupId = groupId;
-        this.groupTags = createGroupTags();
+        List<FeaturedGroup> featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(baseUrl, groupId);
+        this.groupTags = MapParser.createGroupTags(featuredGroups);
     }
-
 
     /**
      * Retrieves all maps of the specified group. Maps can only be retrieved in
@@ -54,251 +73,58 @@ public class GroupHarvester extends AbstractJsonArrayHarvester
      *
      * @return
      */
-    protected IJsonArray getJsonArray()
+    @Override
+    protected Collection<Map> loadEntries()
     {
-        IJsonArray entries = jsonBuilder.createArray();
+        Collection<Map> entries = new LinkedList<>();
 
         int startIndex = 1;
 
         do {
             // request a batch of 100 maps
-            String mapsUrl = String.format(MAPS_URL, baseUrl, groupId, startIndex);
-
-            IJsonObject mapsObj = httpRequester.getRawJsonFromUrl(mapsUrl);
+            String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
+            MapsQueryResult mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, MapsQueryResult.class);
 
             // get maps array
-            IJsonArray maps = mapsObj.getJsonArray(JsonConst.RESULTS);
+            List<Map> maps = mapsQueryResult.getResults();
 
             // add maps to the builder
             entries.addAll(maps);
 
             // get the startIndex of the next batch request
-            startIndex = mapsObj.getInt(JsonConst.NEXT_START);
+            startIndex = mapsQueryResult.getNextStart();
         } while (startIndex != -1);
 
         return entries;
     }
 
+
     /**
      * Creates a document out of a single map JSON object.
      */
     @Override
-    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject map)
+    protected List<IDocument> harvestEntry(Map map)
     {
-        // retrieve document fields
-        String label = getLabel(map);
-        IJsonArray description = getDescription(map);
-        Date lastUpdate = getLastUpdate(map);
+        DataCiteJson doc = new DataCiteJson();
+        doc.setLanguage(map.getCulture());
+        doc.setPublisher(ArcGisConstants.PUBLISHER);
 
-        IJsonArray geo = createGeoJsonArray(map);
-        IJsonArray years = createYears(map);
-        IJsonArray tags = createMapTags(map, groupTags);
-        String viewUrl = createViewUrl(map);
-        String logoUrl = createLogoUrl(map);
+        doc.setTitles(MapParser.getTitles(map));
+        doc.setDates(MapParser.getDates(map));
+        doc.setDescriptions(MapParser.getDescriptions(map));
+        doc.setCreators(MapParser.getCreators(map));
+        doc.setGeoLocations(MapParser.getGeoLocations(map));
+        doc.setRightsList(MapParser.getRightsList(map));
+        doc.setSubjects(MapParser.getSubjects(map, groupTags));
+        doc.setWebLinks(LinkParser.getWebLinks(map, baseUrl));
+        doc.setFiles(LinkParser.getFiles(map));
 
-        IJsonObject doc = searchIndexFactory.createSearchableDocument(label, lastUpdate, viewUrl, null, logoUrl,
-                                                                      description, geo, years, tags);
-
-        // return document
-        List<IJsonObject> docList = new LinkedList<>();
-        docList.add(doc);
-        return docList;
+        return Arrays.asList(doc);
     }
 
     @Override
     public List<String> getValidProperties()
     {
         return null;
-    }
-
-    /**
-     * Retrieves the title of a map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return a label outlining the content of the map
-     */
-    protected String getLabel(IJsonObject map)
-    {
-        if (map.isNonEmptyValue(JsonConst.TITLE))
-            return map.getString(JsonConst.TITLE);
-
-        return null;
-    }
-
-    /**
-     * Retrieves the description of a map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return a label outlining the content of the map
-     */
-    protected IJsonArray getDescription(IJsonObject map)
-    {
-        if (map.isNonEmptyValue(JsonConst.DESCRIPTION))
-            return jsonBuilder.createArrayFromObjects(map.getString(JsonConst.DESCRIPTION));
-
-        return null;
-    }
-
-    /**
-     * Retrieves the date at which a map was last modified.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return a SQL date
-     */
-    protected Date getLastUpdate(IJsonObject map)
-    {
-        Number unixTimestamp = (Number) map.get(JsonConst.MODIFIED);
-        return new Date(unixTimestamp.longValue());
-    }
-
-    /**
-     * Assembles the view URL that points to the website where a GIS map is
-     * located.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return an URL String
-     */
-    protected String createViewUrl(IJsonObject map)
-    {
-        final String mapId = map.getString(JsonConst.ID);
-        return String.format(VIEW_URL, baseUrl, mapId);
-    }
-
-    /**
-     * Assembles the logo URL that points to a thumbnail image of a GIS map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return an URL String
-     */
-    protected String createLogoUrl(IJsonObject map)
-    {
-        if (map.isNonEmptyValue(JsonConst.THUMBNAIL)) {
-            final String thumbnailPath = map.getString(JsonConst.THUMBNAIL);
-            final String mapId = map.getString(JsonConst.ID);
-
-            return String.format(LOGO_URL, baseUrl, mapId, thumbnailPath);
-        }
-
-        return null;
-    }
-
-    /**
-     * Creates a geo JSON object of a single ArcGIS map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return a geo JSON object that describes the bounding box of the map
-     *         content
-     */
-    protected IJsonArray createGeoJsonArray(IJsonObject map)
-    {
-        if (!map.isNonEmptyValue(JsonConst.EXTENT))
-            return null;
-
-        // get the two points that describe the map boundaries
-        IJsonArray extent = map.getJsonArray(JsonConst.EXTENT);
-
-        IJsonArray northWest = extent.getJsonArray(0);
-        IJsonArray southEast = extent.getJsonArray(1);
-
-        double longitudeWest = northWest.getDouble(0);
-        double latitudeNorth = northWest.getDouble(1);
-        double longitudeEast = southEast.getDouble(0);
-        double latitudeSouth = southEast.getDouble(1);
-
-        IJsonObject geoJson = jsonBuilder.geoBuilder().createRectangle(longitudeWest, latitudeNorth, longitudeEast, latitudeSouth);
-
-        return jsonBuilder.createArrayFromObjects(geoJson);
-    }
-
-    /**
-     * Creates a year array for a single ArcGIS map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @return a JSON array of years for a map
-     */
-    protected IJsonArray createYears(IJsonObject map)
-    {
-        IJsonArray yearsArray = jsonBuilder.createArray();
-
-        // get map tags
-        IJsonArray mapTags = map.getJsonArray(JsonConst.TAGS);
-
-        // look for years in the map tags
-        for (Object mapVal : mapTags) {
-            String mapTag = (String) mapVal;
-
-            // only add tag if it is not a year
-            if (YEAR_PATTERN.matcher(mapTag).matches()) {
-                // convert tag to integer and add it
-                yearsArray.add(Integer.parseInt(mapTag));
-            }
-        }
-
-        // build and return array
-        return yearsArray;
-    }
-
-    /**
-     * Creates a tag array for a single ArcGIS map.
-     *
-     * @param map
-     *            a JSON object containing map metadata
-     * @param groupTags
-     *            a list of tags of the map group that contains the map
-     * @return a JSON array of tags for a map
-     */
-    protected IJsonArray createMapTags(IJsonObject map, List<String> groupTags)
-    {
-        IJsonArray mapTagsArray = jsonBuilder.createArray();
-
-        // add group tags
-        groupTags.forEach((String groupTag) -> mapTagsArray.add(groupTag));
-
-        // add map tags
-        IJsonArray mapTags = map.getJsonArray(JsonConst.TAGS);
-
-        for (Object mapVal : mapTags) {
-            String mapTag = (String) mapVal;
-
-            // only add tag if it is not a year
-            if (!YEAR_PATTERN.matcher(mapTag).matches())
-                mapTagsArray.add(mapTag);
-        }
-
-        // add map type
-        mapTagsArray.add(map.getString(JsonConst.TYPE));
-
-        // build and return array
-        return mapTagsArray;
-    }
-
-    protected List<String> createGroupTags()
-    {
-        String groupDetailsUrl = String.format(GROUP_DETAILS_URL, baseUrl, groupId);
-
-        // get detailed group info for all groups (this harvest only has one!)
-        IJsonObject multiGroupDetailsObj = httpRequester.getRawJsonFromUrl(groupDetailsUrl);
-        IJsonArray multiGroupDetailsArray = multiGroupDetailsObj.getJsonArray(JsonConst.RESULTS);
-
-        // retrieve this group from the array of groups
-        IJsonObject groupDetails = multiGroupDetailsArray.getJsonObject(0);
-
-        List<String> newGroupTags = new LinkedList<>();
-
-        // add group title
-        newGroupTags.add(groupDetails.getString(JsonConst.TITLE));
-
-        // add group detail tags
-        IJsonArray groupDetailTags = groupDetails.getJsonArray(JsonConst.TAGS);
-        groupDetailTags.forEach((Object gt) -> newGroupTags.add((String) gt));
-
-        return newGroupTags;
     }
 }
