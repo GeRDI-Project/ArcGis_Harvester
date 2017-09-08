@@ -43,9 +43,6 @@ import de.gerdiproject.json.datacite.Rights;
 
 public class MapParser
 {
-    private static final Calendar CALENDAR = Calendar.getInstance();
-
-
     /**
      * Retrieves the resource type of a map.
      *
@@ -160,6 +157,8 @@ public class MapParser
         Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
 
         // look for years in the map tags
+        Calendar cal = Calendar.getInstance();
+
         for (String tag : mapTags) {
 
             // check if the tag is a year
@@ -167,10 +166,10 @@ public class MapParser
                 int year = Integer.parseInt(tag);
 
                 // convert year to timestamp
-                CALENDAR.set(year, 0, 1);
+                cal.set(year, 0, 1);
 
                 // add year to dates
-                dates.add(new Date(CALENDAR, DateType.Collected));
+                dates.add(new Date(cal, DateType.Collected));
             }
         }
 
