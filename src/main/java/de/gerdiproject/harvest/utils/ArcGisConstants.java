@@ -23,6 +23,11 @@ import java.util.regex.Pattern;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
+/**
+ * A static collection of constants, used for harvesting ArcGis.
+ *
+ * @author Robin Weiss
+ */
 public class ArcGisConstants
 {
     public static final String MAPS_URL = "%s/sharing/rest/search?q=%%20group%%3A%s%%20&sortField=title&sortOrder=asc&start=%d&num=100&f=json";
@@ -45,6 +50,10 @@ public class ArcGisConstants
     public static final WebLink ESRI_LOGO_LINK = createEsriLogoLink();
 
 
+    /**
+     * Creates a weblink that points to the Esri logo.
+     * @return a weblink that points to the Esri logo
+     */
     private static WebLink createEsriLogoLink()
     {
         WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");

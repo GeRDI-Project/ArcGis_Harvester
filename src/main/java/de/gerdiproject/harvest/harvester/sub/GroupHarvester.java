@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
-import de.gerdiproject.harvest.utils.LinkParser;
+import de.gerdiproject.harvest.utils.LinkAssembler;
 import de.gerdiproject.harvest.utils.ArcGisConstants;
 import de.gerdiproject.harvest.utils.ArcGisDownloader;
 import de.gerdiproject.harvest.utils.MapParser;
@@ -35,7 +35,7 @@ import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 
 /**
- * Harvests a group from ArcGis.
+ * Harvests a group of maps from ArcGis.
  *
  * @author Robin Weiss
  */
@@ -49,8 +49,8 @@ public class GroupHarvester extends AbstractListHarvester<Map>
      * Creates a (sub-) harvester for a group of maps. Each group has a unique
      * groupId.
      *
-     * @param harvestedDocuments
-     *            the list in which harvested documents are stored
+     * @param baseUrl
+     *            the host of the maps
      * @param groupName
      *            the title of the group of maps that is to be harvested
      * @param groupId
@@ -62,16 +62,19 @@ public class GroupHarvester extends AbstractListHarvester<Map>
 
         this.baseUrl = baseUrl;
         this.groupId = groupId;
+
+        // get group details
         List<FeaturedGroup> featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(baseUrl, groupId);
+
+        // parse generic search terms from group details
         this.groupTags = MapParser.createGroupTags(featuredGroups);
     }
 
     /**
-     * Retrieves all maps of the specified group. Maps can only be retrieved in
-     * batches of MAX_ENTRIES_PER_REQUEST. Therefore, each batch of maps must be
-     * merged into a single array.
+     * Retrieves all maps in the group. Maps can only be retrieved in
+     * batches of 100. Therefore, each batch of maps must be merged into a single array.
      *
-     * @return
+     * @return all maps in the group
      */
     @Override
     protected Collection<Map> loadEntries()
@@ -106,9 +109,9 @@ public class GroupHarvester extends AbstractListHarvester<Map>
     protected List<IDocument> harvestEntry(Map map)
     {
         DataCiteJson doc = new DataCiteJson();
+
         doc.setLanguage(map.getCulture());
         doc.setPublisher(ArcGisConstants.PUBLISHER);
-
         doc.setTitles(MapParser.getTitles(map));
         doc.setDates(MapParser.getDates(map));
         doc.setDescriptions(MapParser.getDescriptions(map));
@@ -116,12 +119,16 @@ public class GroupHarvester extends AbstractListHarvester<Map>
         doc.setGeoLocations(MapParser.getGeoLocations(map));
         doc.setRightsList(MapParser.getRightsList(map));
         doc.setSubjects(MapParser.getSubjects(map, groupTags));
-        doc.setWebLinks(LinkParser.getWebLinks(map, baseUrl));
-        doc.setFiles(LinkParser.getFiles(map));
+        doc.setWebLinks(LinkAssembler.getWebLinks(map, baseUrl));
+        doc.setFiles(LinkAssembler.getFiles(map));
 
         return Arrays.asList(doc);
     }
 
+    /**
+     * There are no properties to be set.
+     * @return null
+     */
     @Override
     public List<String> getValidProperties()
     {

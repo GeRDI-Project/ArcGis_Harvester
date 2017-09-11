@@ -41,6 +41,12 @@ import de.gerdiproject.json.datacite.ResourceType;
 import de.gerdiproject.json.datacite.ResourceType.GeneralResourceType;
 import de.gerdiproject.json.datacite.Rights;
 
+/**
+ * This static class provides methods for retrieving DataCite fields from
+ * ArcGis server responses.
+ *
+ * @author Robin Weiss
+ */
 public class MapParser
 {
     /**
@@ -105,6 +111,7 @@ public class MapParser
      * Retrieves the descriptions of a map.
      *
      * @param map a JSON object containing map metadata
+     *
      * @return a list of all map descriptions
      */
     public static List<Description> getDescriptions(Map map)
@@ -197,6 +204,13 @@ public class MapParser
     }
 
 
+    /**
+     * Retrieves a list of (licensing) rights of a map.
+     *
+     * @param map a JSON object containing map metadata
+     *
+     * @return a list of rights of a map
+     */
     public static List<Rights> getRightsList(Map map)
     {
         List<Rights> rightsList = null;
@@ -215,7 +229,7 @@ public class MapParser
 
 
     /**
-     * Creates a {@linkplain GeoLocation} of the extent of the map.
+     * Creates a {@linkplain GeoLocation} of the extent of a map.
      *
      * @param map a JSON object containing map metadata
      *
@@ -243,12 +257,10 @@ public class MapParser
 
 
     /**
-     * Creates a tag array for a single ArcGIS map.
+     * Creates a {@linkplain Subject} list for a map.
      *
-     * @param map
-     *            a JSON object containing map metadata
-     * @param groupTags
-     *            a list of tags of the map group that contains the map
+     * @param map a JSON object containing map metadata
+     * @param groupTags a list of tags of the map group that contains the map
      * @return a JSON array of tags for a map
      */
     public static List<Subject> getSubjects(Map map, List<Subject> groupTags)
@@ -288,6 +300,14 @@ public class MapParser
         return subjects;
     }
 
+
+    /**
+     * Creates a list of {@linkplain Subject}s that are related to groups of maps.
+     *
+     * @param groups a list of groups of which the subjects are to be retrieved
+     *
+     * @return a list of {@linkplain Subject}s that are related to groups of maps
+     */
     public static List<Subject> createGroupTags(List<FeaturedGroup> groups)
     {
         List<Subject> subjects = new LinkedList<>();
@@ -298,7 +318,6 @@ public class MapParser
                                                subjects.add(new Subject(tag))
                                               )
                       );
-
         return subjects;
     }
 }

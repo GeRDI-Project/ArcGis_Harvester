@@ -28,11 +28,23 @@ import de.gerdiproject.json.arcgis.GroupQueryResult;
 import de.gerdiproject.json.arcgis.Overview;
 import de.gerdiproject.json.arcgis.User;
 
+/**
+ * This class provides methods for downloading raw (meta-) data from ArcGis.
+ *
+ * @author Robin Weiss
+ */
 public class ArcGisDownloader
 {
     private static final HttpRequester httpRequester = new HttpRequester();
 
 
+    /**
+     * Gets details of an ArcGis user profile.
+     *
+     * @param userName the unique user name
+     *
+     * @return user details
+     */
     public static User getUser(String userName)
     {
         String url = String.format(ArcGisConstants.USER_PROFILE_URL, userName);
@@ -40,6 +52,13 @@ public class ArcGisDownloader
     }
 
 
+    /**
+     * Retrieves a list of featured groups from an ArcGis map host.
+     *
+     * @param baseUrl the host of the ArcGis map URL
+     *
+     * @return a list of featured groups
+     */
     public static List<FeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
     {
         // get overview object
@@ -63,6 +82,14 @@ public class ArcGisDownloader
     }
 
 
+    /**
+     * Retrieves detailed featured groups from a query request.
+     *
+     * @param baseUrl the host of the ArcGis map URL
+     * @param query the groups query
+     *
+     * @return a list of detailed featured groups
+     */
     public static List<FeaturedGroup> getFeaturedGroupsByQuery(String baseUrl, String query)
     {
         try {

@@ -28,15 +28,17 @@ import java.util.List;
 
 
 /**
- * A harvester for ArcGis (http://esri.maps.arcgis.com/home/groups.html).
+ * A harvester for ArcGis Maps.
+ * <br>(http://www.arcgis.com/features/index.html).
  *
  * @author Robin Weiss
  */
 public class ArcGisHarvester extends AbstractCompositeHarvester
 {
     private final static List<String> VALID_PARAMS = new LinkedList<>();
+
     /**
-     * Simple constructor that passes on the inherited one.
+     * Simple constructor for harvesting all maps.
      */
     public ArcGisHarvester()
     {
@@ -44,8 +46,8 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     }
 
     /**
-     * Creates an ArcGisHarvester instance by checking all map groups in ArcGIS and Esri first.
-     * @return
+     * Creates sub-harvesters for all groups of arcgis.com and esri.maps.arcgis.com
+     * @return a list of sub-harvesters for all groups
      */
     private static List<AbstractHarvester> createSubHarvesters()
     {
@@ -63,12 +65,12 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
 
 
     /**
-     * Returns a list of sub-harvesters for harvesting all featured groups of an ArcGis area.
+     * Creates a list of sub-harvesters for harvesting all featured groups of an ArcGis host.
      *
-     * @param baseUrl the URL of an ArcGis repository that contains featured groups
-     * @param nameSuffix a name suffix for all sub-harvesters
+     * @param baseUrl the host of an ArcGis repository that contains featured groups
+     * @param nameSuffix a name suffix used to distinguish sub-harvesters
      *
-     * @return a list of sub-harvesters for harvesting all featured groups of an ArcGis area
+     * @return a list of sub-harvesters for harvesting all featured groups of an ArcGis host
      */
     private static List<AbstractHarvester> createSubHarvesters(String baseUrl, String nameSuffix)
     {
@@ -87,7 +89,10 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
         return arcGisHarvesters;
     }
 
-
+    /**
+     * Returns an empty list as there are no properties to be set.
+     * @return an empty list
+     */
     @Override
     public List<String> getValidProperties()
     {

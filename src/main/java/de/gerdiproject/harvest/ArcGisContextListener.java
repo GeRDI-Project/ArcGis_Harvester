@@ -22,7 +22,7 @@ import de.gerdiproject.harvest.harvester.ArcGisHarvester;
 import javax.servlet.annotation.WebListener;
 
 /**
- * This class initializes the FAOSTAT harvester and a logger
+ * This class initializes the ArcGis harvester and all mandatory objects.
  *
  * @author Robin Weiss
  */
