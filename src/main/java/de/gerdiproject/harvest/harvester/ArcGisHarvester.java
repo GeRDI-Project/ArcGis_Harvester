@@ -18,10 +18,10 @@
  */
 package de.gerdiproject.harvest.harvester;
 
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
 import de.gerdiproject.harvest.harvester.sub.GroupHarvester;
-import de.gerdiproject.harvest.utils.ArcGisConstants;
 import de.gerdiproject.harvest.utils.ArcGisDownloader;
-import de.gerdiproject.json.arcgis.FeaturedGroup;
 
 import java.util.LinkedList;
 import java.util.List;

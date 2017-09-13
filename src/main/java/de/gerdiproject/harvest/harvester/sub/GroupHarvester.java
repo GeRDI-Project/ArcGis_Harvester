@@ -23,14 +23,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import de.gerdiproject.harvest.IDocument;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.Map;
+import de.gerdiproject.harvest.arcgis.json.MapsQueryResult;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.utils.LinkAssembler;
-import de.gerdiproject.harvest.utils.ArcGisConstants;
 import de.gerdiproject.harvest.utils.ArcGisDownloader;
 import de.gerdiproject.harvest.utils.MapParser;
-import de.gerdiproject.json.arcgis.FeaturedGroup;
-import de.gerdiproject.json.arcgis.Map;
-import de.gerdiproject.json.arcgis.MapsQueryResult;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 

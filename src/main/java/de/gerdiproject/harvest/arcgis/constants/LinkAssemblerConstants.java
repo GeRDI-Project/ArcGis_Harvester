@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.utils;
+package de.gerdiproject.harvest.arcgis.constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Robin Weiss
  */
-class LinkAssemblerConstants
+public class LinkAssemblerConstants
 {
     public static final String FEATURE_COLLECTION_TYPE = "Feature Collection";
     public static final String VECTOR_TILE_SERVICE_TYPE = "Vector Tile Service";

@@ -24,9 +24,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import de.gerdiproject.json.arcgis.FeaturedGroup;
-import de.gerdiproject.json.arcgis.Map;
-import de.gerdiproject.json.arcgis.User;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.Map;
+import de.gerdiproject.harvest.arcgis.json.User;
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.Date;
 import de.gerdiproject.json.datacite.Description;

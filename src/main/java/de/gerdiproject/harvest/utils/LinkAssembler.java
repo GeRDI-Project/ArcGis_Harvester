@@ -21,7 +21,9 @@ package de.gerdiproject.harvest.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.gerdiproject.json.arcgis.Map;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.constants.LinkAssemblerConstants;
+import de.gerdiproject.harvest.arcgis.json.Map;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;

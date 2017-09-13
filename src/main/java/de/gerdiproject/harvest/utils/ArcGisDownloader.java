@@ -23,10 +23,11 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import de.gerdiproject.harvest.MainContext;
-import de.gerdiproject.json.arcgis.FeaturedGroup;
-import de.gerdiproject.json.arcgis.GroupQueryResult;
-import de.gerdiproject.json.arcgis.Overview;
-import de.gerdiproject.json.arcgis.User;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.GroupQueryResult;
+import de.gerdiproject.harvest.arcgis.json.Overview;
+import de.gerdiproject.harvest.arcgis.json.User;
 
 /**
  * This class provides methods for downloading raw (meta-) data from ArcGis.

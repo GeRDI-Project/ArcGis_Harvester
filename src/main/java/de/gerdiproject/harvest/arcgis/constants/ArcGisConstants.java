@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.utils;
+package de.gerdiproject.harvest.arcgis.constants;
 
 import java.util.regex.Pattern;
 
