@@ -44,7 +44,6 @@ public class ArcGisConstants
     public static final String PUBLISHER = "Esri";
 
     public static final String USER_PROFILE_URL = "http://www.arcgis.com/sharing/rest/community/users/%s?f=json";
-    public static final String THUMBNAIL_URL = "%s/sharing/rest/content/items/%s/info/%s";
     public static final String VIEW_URL = "%s/home/item.html?id=%s";
 
     public static final WebLink ESRI_LOGO_LINK = createEsriLogoLink();

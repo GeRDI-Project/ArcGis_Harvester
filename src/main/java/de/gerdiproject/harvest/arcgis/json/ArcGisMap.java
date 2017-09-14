@@ -29,7 +29,7 @@ import de.gerdiproject.json.geo.Point;
  *
  * @author Robin Weiss
  */
-public class Map
+public class ArcGisMap
 {
     private String id;
     private String owner;

@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
-import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
-import de.gerdiproject.harvest.arcgis.json.Map;
-import de.gerdiproject.harvest.arcgis.json.User;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.Date;
 import de.gerdiproject.json.datacite.Description;
@@ -57,7 +57,7 @@ public class MapParser
      *
      * @return the resource type of a map
      */
-    public static ResourceType getResourceType(Map map)
+    public static ResourceType getResourceType(ArcGisMap map)
     {
         ResourceType resourceType = null;
         String typeName = map.getType();
@@ -79,7 +79,7 @@ public class MapParser
      *
      * @return a list of all titles of the map
      */
-    public static List<Title> getTitles(Map map)
+    public static List<Title> getTitles(ArcGisMap map)
     {
         List<Title> titles = new LinkedList<>();
 
@@ -115,7 +115,7 @@ public class MapParser
      *
      * @return a list of all map descriptions
      */
-    public static List<Description> getDescriptions(Map map)
+    public static List<Description> getDescriptions(ArcGisMap map)
     {
         List<Description> descriptions = new LinkedList<>();
 
@@ -148,7 +148,7 @@ public class MapParser
      *
      * @return a list of relevant date
      */
-    public static List<Date> getDates(Map map)
+    public static List<Date> getDates(ArcGisMap map)
     {
         List<Date> dates = new LinkedList<>();
 
@@ -191,10 +191,10 @@ public class MapParser
      *
      * @return a list of creators
      */
-    public static List<Creator> getCreators(Map map)
+    public static List<Creator> getCreators(ArcGisMap map)
     {
         // download additional user info
-        User owner = ArcGisDownloader.getUser(map.getOwner());
+        ArcGisUser owner = Downloader.getUser(map.getOwner());
 
         Creator creator = new Creator(owner.getFullName());
         creator.setGivenName(owner.getFirstName());
@@ -210,9 +210,10 @@ public class MapParser
      *
      * @param map a JSON object containing map metadata
      *
-     * @return a list of rights of a map
+     * @return a list of rights of a map,
+     * or null if the map does not provide any rights
      */
-    public static List<Rights> getRightsList(Map map)
+    public static List<Rights> getRightsList(ArcGisMap map)
     {
         List<Rights> rightsList = null;
         String licenseInfo = map.getLicenseInfo();
@@ -234,9 +235,10 @@ public class MapParser
      *
      * @param map a JSON object containing map metadata
      *
-     * @return a GeoLocation that includes the bounding box of the map
+     * @return a GeoLocation that includes the bounding box of the map,
+     * or null if the map does not provide any geo data
      */
-    public static List<GeoLocation> getGeoLocations(Map map)
+    public static List<GeoLocation> getGeoLocations(ArcGisMap map)
     {
         // get the two points that describe the map boundaries
         List<Point> extent = map.getExtent();
@@ -264,7 +266,7 @@ public class MapParser
      * @param groupTags a list of tags of the map group that contains the map
      * @return a JSON array of tags for a map
      */
-    public static List<Subject> getSubjects(Map map, List<Subject> groupTags)
+    public static List<Subject> getSubjects(ArcGisMap map, List<Subject> groupTags)
     {
         List<Subject> subjects = new LinkedList<>();
 
@@ -309,12 +311,12 @@ public class MapParser
      *
      * @return a list of {@linkplain Subject}s that are related to groups of maps
      */
-    public static List<Subject> createGroupTags(List<FeaturedGroup> groups)
+    public static List<Subject> createGroupTags(List<ArcGisFeaturedGroup> groups)
     {
         List<Subject> subjects = new LinkedList<>();
 
         // convert each tag of each group to a subject
-        groups.forEach((FeaturedGroup group) ->
+        groups.forEach((ArcGisFeaturedGroup group) ->
                        group.getTags().forEach((String tag) ->
                                                subjects.add(new Subject(tag))
                                               )

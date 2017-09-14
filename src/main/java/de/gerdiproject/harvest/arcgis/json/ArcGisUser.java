@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Robin Weiss
  */
-public class User
+public class ArcGisUser
 {
     private String username;
     private String fullName;

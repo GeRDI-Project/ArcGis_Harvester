@@ -29,7 +29,7 @@ import com.google.gson.JsonObject;
  *
  * @author Robin Weiss
  */
-public class Overview
+public class ArcGisOverview
 {
     private String access;
     private boolean allSSL;
@@ -47,7 +47,7 @@ public class Overview
     private JsonObject defaultVectorBasemap;
     private String description;
     private boolean eueiEnabled;
-    private List<FeaturedGroup> featuredGroups;
+    private List<ArcGisFeaturedGroup> featuredGroups;
     private String featuredGroupsId;
     private String featuredItemsGroupQuery;
     private String galleryTemplatesGroupQuery;
@@ -282,13 +282,13 @@ public class Overview
     }
 
 
-    public List<FeaturedGroup> getFeaturedGroups()
+    public List<ArcGisFeaturedGroup> getFeaturedGroups()
     {
         return featuredGroups;
     }
 
 
-    public void setFeaturedGroups(List<FeaturedGroup> featuredGroups)
+    public void setFeaturedGroups(List<ArcGisFeaturedGroup> featuredGroups)
     {
         this.featuredGroups = featuredGroups;
     }

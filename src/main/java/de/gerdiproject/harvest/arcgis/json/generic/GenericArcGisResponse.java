@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.arcgis.json;
+package de.gerdiproject.harvest.arcgis.json.generic;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Robin Weiss
  */
-public class QueryResult<T>
+public class GenericArcGisResponse<T>
 {
     private String query;
     private int total;

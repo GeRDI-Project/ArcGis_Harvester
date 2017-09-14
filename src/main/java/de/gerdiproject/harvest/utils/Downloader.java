@@ -24,17 +24,17 @@ import java.util.List;
 
 import de.gerdiproject.harvest.MainContext;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
-import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
-import de.gerdiproject.harvest.arcgis.json.GroupQueryResult;
-import de.gerdiproject.harvest.arcgis.json.Overview;
-import de.gerdiproject.harvest.arcgis.json.User;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
+import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
+import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
 
 /**
  * This class provides methods for downloading raw (meta-) data from ArcGis.
  *
  * @author Robin Weiss
  */
-public class ArcGisDownloader
+public class Downloader
 {
     private static final HttpRequester httpRequester = new HttpRequester();
 
@@ -46,10 +46,10 @@ public class ArcGisDownloader
      *
      * @return user details
      */
-    public static User getUser(String userName)
+    public static ArcGisUser getUser(String userName)
     {
         String url = String.format(ArcGisConstants.USER_PROFILE_URL, userName);
-        return httpRequester.getObjectFromUrl(url, User.class);
+        return httpRequester.getObjectFromUrl(url, ArcGisUser.class);
     }
 
 
@@ -60,13 +60,13 @@ public class ArcGisDownloader
      *
      * @return a list of featured groups
      */
-    public static List<FeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
+    public static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
     {
         // get overview object
         String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
-        Overview overviewObj = new HttpRequester().getObjectFromUrl(overviewUrl, Overview.class);
+        ArcGisOverview overviewObj = new HttpRequester().getObjectFromUrl(overviewUrl, ArcGisOverview.class);
 
-        List<FeaturedGroup> featuredGroups;
+        List<ArcGisFeaturedGroup> featuredGroups;
 
         // check if the featured groups array has group IDs
         boolean hasFeaturedGroupIDs = overviewObj.getFeaturedGroups().get(0).getId() != null;
@@ -91,14 +91,14 @@ public class ArcGisDownloader
      *
      * @return a list of detailed featured groups
      */
-    public static List<FeaturedGroup> getFeaturedGroupsByQuery(String baseUrl, String query)
+    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(String baseUrl, String query)
     {
         try {
             String groupDetailsUrl = baseUrl + ArcGisConstants.GROUP_DETAILS_URL_SUFFIX;
             groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, MainContext.getCharset().displayName()));
 
             // retrieve details of gallery group
-            return httpRequester.getObjectFromUrl(groupDetailsUrl, GroupQueryResult.class).getResults();
+            return httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisFeaturedGroupsResponse.class).getResults();
 
         } catch (UnsupportedEncodingException e) {
             // this should never happen, because UTF-8 is a valid encoding

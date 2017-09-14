@@ -16,67 +16,18 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.arcgis.json;
+package de.gerdiproject.harvest.arcgis.json.compound;
 
-import java.util.List;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 
 /**
- * A featured group of maps.
+ * The result to a map query request.
+ * <br>e.g. http://www.arcgis.com/sharing/rest/search?q=%20group%3Ac755678be14e4a0984af36a15f5b643e%20&sortField=title&sortOrder=asc&start=1&num=100&f=json
  *
  * @author Robin Weiss
  */
-public class FeaturedGroup
+public class ArcGisMapsResponse extends GenericArcGisResponse<ArcGisMap>
 {
-    private String title;
-    private String owner;
-    private String id;
-    private List<String> tags;
 
-
-    public List<String> getTags()
-    {
-        return tags;
-    }
-
-
-    public void setTags(List<String> tags)
-    {
-        this.tags = tags;
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
-
-
-    public String getOwner()
-    {
-        return owner;
-    }
-
-
-    public void setOwner(String owner)
-    {
-        this.owner = owner;
-    }
-
-
-    public String getId()
-    {
-        return id;
-    }
-
-
-    public void setId(String id)
-    {
-        this.id = id;
-    }
 }

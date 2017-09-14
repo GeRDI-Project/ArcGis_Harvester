@@ -18,8 +18,6 @@
  */
 package de.gerdiproject.harvest.arcgis.constants;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A static collection of constants, used for assembling web links and file downloads of ArcGis maps.
@@ -51,86 +49,24 @@ public class LinkAssemblerConstants
     public static final String METADATA_VIEWER_NAME = "View Metadata";
     public static final String APPLICATION_VIEWER_NAME = "View Application";
     public static final String DOCUMENT_VIEWER_NAME = "Open";
+    public static final String THUMBNAIL_NAME = "Thumbnail";
+    public static final String VIEW_URL_NAME = "View map on arcgis.com";
 
     public static final String METADATA_TYPE_KEYWORD = "Metadata";
-    public static final String METADATA_VIEWER_URL = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/info/metadata/metadata.xml?format=default&output=html";
-
     public static final String ARC_GIS_DESKTOP_FILE_TYPE_WEBMAP = "pkinfo";
     public static final String ARC_GIS_DESKTOP_FILE_TYPE_MAPSERVICE = "pitem";
 
-
-    public static final Map<String, String> MAP_VIEWER_URLS;
-    static
-    {
-        MAP_VIEWER_URLS = new HashMap<>();
-
-        final String mapServiceUrl = "http://esri.maps.arcgis.com/home/signin.html?returnUrl=http%%3A%%2F%%2Fesri.maps.arcgis.com%%2Fhome%%2Fwebmap%%2Fviewer.html%%3FuseExisting%%3D1%%26layers%%3D%s";
-        MAP_VIEWER_URLS.put(MAP_SERVICE_TYPE, mapServiceUrl);
-        MAP_VIEWER_URLS.put(IMAGE_SERVICE_TYPE, mapServiceUrl);
-
-        final String featureCollectionUrl = "http://esri.maps.arcgis.com/home/webmap/viewer.html?useExisting=1&layers=%s";
-        MAP_VIEWER_URLS.put(FEATURE_COLLECTION_TYPE, featureCollectionUrl);
-        MAP_VIEWER_URLS.put(VECTOR_TILE_SERVICE_TYPE, featureCollectionUrl);
-        MAP_VIEWER_URLS.put(FEATURE_SERVICE_TYPE, featureCollectionUrl);
-        MAP_VIEWER_URLS.put(WMS_TYPE, featureCollectionUrl);
-
-        final String webMapUrl = "http://esri.maps.arcgis.com/home/webmap/viewer.html?webmap=%s";
-        MAP_VIEWER_URLS.put(WEB_MAP_TYPE, webMapUrl);
-    }
-
-
-    public static final Map<String, String> SCENE_VIEWER_URLS;
-    static
-    {
-        SCENE_VIEWER_URLS = new HashMap<>();
-
-        final String mapServiceUrl = "http://esri.maps.arcgis.com/home/webscene/viewer.html?layers=%s";
-        SCENE_VIEWER_URLS.put(MAP_SERVICE_TYPE, mapServiceUrl);
-        SCENE_VIEWER_URLS.put(IMAGE_SERVICE_TYPE, mapServiceUrl);
-        SCENE_VIEWER_URLS.put(VECTOR_TILE_SERVICE_TYPE, mapServiceUrl);
-        SCENE_VIEWER_URLS.put(FEATURE_SERVICE_TYPE, mapServiceUrl);
-
-        final String webSceneUrl = "http://esri.maps.arcgis.com/home/webscene/viewer.html?webscene=%s";
-        SCENE_VIEWER_URLS.put(WEB_SCENE_TYPE, webSceneUrl);
-    }
-
-
-    public static final Map<String, String> ARC_GIS_DESKTOP_URLS;
-    static
-    {
-        ARC_GIS_DESKTOP_URLS = new HashMap<>();
-
-        final String mapServiceUrl = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/item.pitem";
-        ARC_GIS_DESKTOP_URLS.put(MAP_SERVICE_TYPE, mapServiceUrl);
-        ARC_GIS_DESKTOP_URLS.put(IMAGE_SERVICE_TYPE, mapServiceUrl);
-        ARC_GIS_DESKTOP_URLS.put(FEATURE_SERVICE_TYPE, mapServiceUrl);
-        ARC_GIS_DESKTOP_URLS.put(WMS_TYPE, mapServiceUrl);
-
-        final String webMapUrl = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/item.pkinfo";
-        ARC_GIS_DESKTOP_URLS.put(WEB_MAP_TYPE, webMapUrl);
-    }
-
-
-    public static final Map<String, String> DOWNLOAD_URLS;
-    static
-    {
-        DOWNLOAD_URLS = new HashMap<>();
-
-        final String url = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/data";
-        DOWNLOAD_URLS.put(LAYER_PACKAGE_TYPE, url);
-        DOWNLOAD_URLS.put(CODE_ATTACHMENT_TYPE, url);
-        DOWNLOAD_URLS.put(RULE_PACKAGE_TYPE, url);
-    }
-
-
-    public static final Map<String, String> STYLE_VIEW_URLS;
-    static
-    {
-        STYLE_VIEW_URLS = new HashMap<>();
-
-        final String url = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/resources/styles/root.json?f=pjson";
-        STYLE_VIEW_URLS.put(VECTOR_TILE_SERVICE_TYPE, url);
-    }
+    public static final String DOWNLOAD_URL = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/data";
+    public static final String MAP_VIEWER_URL_MAP_SERVICE = "http://esri.maps.arcgis.com/home/signin.html?returnUrl=http%%3A%%2F%%2Fesri.maps.arcgis.com%%2Fhome%%2Fwebmap%%2Fviewer.html%%3FuseExisting%%3D1%%26layers%%3D%s";
+    public static final String MAP_VIEWER_URL_FEATURE_SERVICE = "http://esri.maps.arcgis.com/home/webmap/viewer.html?useExisting=1&layers=%s";
+    public static final String MAP_VIEWER_URL_WEB_MAP = "http://esri.maps.arcgis.com/home/webmap/viewer.html?webmap=%s";
+    public static final String THUMBNAIL_URL = "%s/sharing/rest/content/items/%s/info/%s";
+    public static final String STYLE_VIEWER_URL = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/resources/styles/root.json?f=pjson";
+    public static final String METADATA_URL = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/info/metadata/metadata.xml?format=default&output=html";
+    public static final String ARC_GIS_DESKTOP_URL_MAP_SERVICE = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/item.pitem";
+    public static final String ARC_GIS_DESKTOP_URL_WEB_MAP = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/item.pkinfo";
+    public static final String SCENE_VIEWER_URL_MAP_SERVICE = "http://esri.maps.arcgis.com/home/webscene/viewer.html?layers=%s";
+    public static final String SCENE_VIEWER_URL_WEB_SCENE = "http://esri.maps.arcgis.com/home/webscene/viewer.html?webscene=%s";
 
 
     /**

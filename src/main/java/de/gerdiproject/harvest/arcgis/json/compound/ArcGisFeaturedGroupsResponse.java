@@ -16,7 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.arcgis.json;
+package de.gerdiproject.harvest.arcgis.json.compound;
+
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 
 /**
  * The result to a group query request.
@@ -24,6 +27,6 @@ package de.gerdiproject.harvest.arcgis.json;
  * <br>e.g. http://www.arcgis.com/sharing/rest/community/groups?num=10&start=0&sortField=title&sortOrder=asc&q=title%3A%22Featured%20Maps%20And%20Apps%22%20AND%20owner%3Aesri&f=json
  * @author Robin Weiss
  */
-public class GroupQueryResult extends QueryResult<FeaturedGroup>
+public class ArcGisFeaturedGroupsResponse extends GenericArcGisResponse<ArcGisFeaturedGroup>
 {
 }

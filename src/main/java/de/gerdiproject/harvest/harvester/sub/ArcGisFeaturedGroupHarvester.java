@@ -24,12 +24,12 @@ import java.util.LinkedList;
 import java.util.List;
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
-import de.gerdiproject.harvest.arcgis.json.FeaturedGroup;
-import de.gerdiproject.harvest.arcgis.json.Map;
-import de.gerdiproject.harvest.arcgis.json.MapsQueryResult;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.utils.LinkAssembler;
-import de.gerdiproject.harvest.utils.ArcGisDownloader;
+import de.gerdiproject.harvest.utils.Downloader;
 import de.gerdiproject.harvest.utils.MapParser;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
@@ -39,7 +39,7 @@ import de.gerdiproject.json.datacite.Subject;
  *
  * @author Robin Weiss
  */
-public class GroupHarvester extends AbstractListHarvester<Map>
+public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMap>
 {
     private final String baseUrl;
     private final String groupId;
@@ -56,7 +56,7 @@ public class GroupHarvester extends AbstractListHarvester<Map>
      * @param groupId
      *            the unique ID of the group of maps that is to be harvested
      */
-    public GroupHarvester(String baseUrl, String groupName, String groupId)
+    public ArcGisFeaturedGroupHarvester(String baseUrl, String groupName, String groupId)
     {
         super(groupName, 1);
 
@@ -64,7 +64,7 @@ public class GroupHarvester extends AbstractListHarvester<Map>
         this.groupId = groupId;
 
         // get group details
-        List<FeaturedGroup> featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(baseUrl, groupId);
+        List<ArcGisFeaturedGroup> featuredGroups = Downloader.getFeaturedGroupsByQuery(baseUrl, groupId);
 
         // parse generic search terms from group details
         this.groupTags = MapParser.createGroupTags(featuredGroups);
@@ -77,19 +77,19 @@ public class GroupHarvester extends AbstractListHarvester<Map>
      * @return all maps in the group
      */
     @Override
-    protected Collection<Map> loadEntries()
+    protected Collection<ArcGisMap> loadEntries()
     {
-        Collection<Map> entries = new LinkedList<>();
+        Collection<ArcGisMap> entries = new LinkedList<>();
 
         int startIndex = 1;
 
         do {
             // request a batch of 100 maps
             String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
-            MapsQueryResult mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, MapsQueryResult.class);
+            ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
 
             // get maps array
-            List<Map> maps = mapsQueryResult.getResults();
+            List<ArcGisMap> maps = mapsQueryResult.getResults();
 
             // add maps to the builder
             entries.addAll(maps);
@@ -106,7 +106,7 @@ public class GroupHarvester extends AbstractListHarvester<Map>
      * Creates a document out of a single map JSON object.
      */
     @Override
-    protected List<IDocument> harvestEntry(Map map)
+    protected List<IDocument> harvestEntry(ArcGisMap map)
     {
         DataCiteJson doc = new DataCiteJson();
 
