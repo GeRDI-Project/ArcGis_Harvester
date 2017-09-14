@@ -16,17 +16,67 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest;
+package de.gerdiproject.harvest.arcgis.json;
 
-import de.gerdiproject.harvest.harvester.ArcGisHarvester;
-import javax.servlet.annotation.WebListener;
+import java.util.List;
 
 /**
- * This class initializes the ArcGis harvester and all mandatory objects.
+ * A featured group of maps.
  *
  * @author Robin Weiss
  */
-@WebListener
-public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
+public class ArcGisFeaturedGroup
 {
+    private String title;
+    private String owner;
+    private String id;
+    private List<String> tags;
+
+
+    public List<String> getTags()
+    {
+        return tags;
+    }
+
+
+    public void setTags(List<String> tags)
+    {
+        this.tags = tags;
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+
+    public String getOwner()
+    {
+        return owner;
+    }
+
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
+
+    public String getId()
+    {
+        return id;
+    }
+
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
 }

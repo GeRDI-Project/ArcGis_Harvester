@@ -16,17 +16,17 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest;
+package de.gerdiproject.harvest.arcgis.json.compound;
 
-import de.gerdiproject.harvest.harvester.ArcGisHarvester;
-import javax.servlet.annotation.WebListener;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 
 /**
- * This class initializes the ArcGis harvester and all mandatory objects.
+ * The result to a group query request.
  *
+ * <br>e.g. http://www.arcgis.com/sharing/rest/community/groups?num=10&start=0&sortField=title&sortOrder=asc&q=title%3A%22Featured%20Maps%20And%20Apps%22%20AND%20owner%3Aesri&f=json
  * @author Robin Weiss
  */
-@WebListener
-public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
+public class ArcGisFeaturedGroupsResponse extends GenericArcGisResponse<ArcGisFeaturedGroup>
 {
 }

@@ -16,17 +16,18 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest;
+package de.gerdiproject.harvest.arcgis.json.compound;
 
-import de.gerdiproject.harvest.harvester.ArcGisHarvester;
-import javax.servlet.annotation.WebListener;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 
 /**
- * This class initializes the ArcGis harvester and all mandatory objects.
+ * The result to a map query request.
+ * <br>e.g. http://www.arcgis.com/sharing/rest/search?q=%20group%3Ac755678be14e4a0984af36a15f5b643e%20&sortField=title&sortOrder=asc&start=1&num=100&f=json
  *
  * @author Robin Weiss
  */
-@WebListener
-public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
+public class ArcGisMapsResponse extends GenericArcGisResponse<ArcGisMap>
 {
+
 }
