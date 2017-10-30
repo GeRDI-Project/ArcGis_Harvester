@@ -124,14 +124,4 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
 
         return Arrays.asList(doc);
     }
-
-    /**
-     * There are no properties to be set.
-     * @return null
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return null;
-    }
 }

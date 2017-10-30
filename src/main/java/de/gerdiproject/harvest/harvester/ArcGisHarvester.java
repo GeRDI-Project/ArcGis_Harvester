@@ -35,8 +35,6 @@ import java.util.List;
  */
 public class ArcGisHarvester extends AbstractCompositeHarvester
 {
-    private final static List<String> VALID_PARAMS = new LinkedList<>();
-
     /**
      * Simple constructor for harvesting all maps.
      */
@@ -87,15 +85,5 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
         });
 
         return arcGisHarvesters;
-    }
-
-    /**
-     * Returns an empty list as there are no properties to be set.
-     * @return an empty list
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return VALID_PARAMS;
     }
 }

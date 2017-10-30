@@ -28,6 +28,7 @@ import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
+import de.gerdiproject.harvest.utils.data.HttpRequester;
 
 /**
  * This class provides methods for downloading raw (meta-) data from ArcGis.
