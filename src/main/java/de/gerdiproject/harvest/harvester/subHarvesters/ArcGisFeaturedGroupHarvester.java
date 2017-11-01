@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.sub;
+package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,10 +27,10 @@ import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisLinkAssembler;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisMapParser;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
-import de.gerdiproject.harvest.utils.LinkAssembler;
-import de.gerdiproject.harvest.utils.Downloader;
-import de.gerdiproject.harvest.utils.MapParser;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 
@@ -44,6 +44,7 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
     private final String baseUrl;
     private final String groupId;
     private final List<Subject> groupTags;
+
 
     /**
      * Creates a (sub-) harvester for a group of maps. Each group has a unique
@@ -64,11 +65,12 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
         this.groupId = groupId;
 
         // get group details
-        List<ArcGisFeaturedGroup> featuredGroups = Downloader.getFeaturedGroupsByQuery(baseUrl, groupId);
+        List<ArcGisFeaturedGroup> featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(baseUrl, groupId);
 
         // parse generic search terms from group details
-        this.groupTags = MapParser.createGroupTags(featuredGroups);
+        this.groupTags = ArcGisMapParser.createGroupTags(featuredGroups);
     }
+
 
     /**
      * Retrieves all maps in the group. Maps can only be retrieved in
@@ -112,15 +114,15 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
 
         doc.setLanguage(map.getCulture());
         doc.setPublisher(ArcGisConstants.PUBLISHER);
-        doc.setTitles(MapParser.getTitles(map));
-        doc.setDates(MapParser.getDates(map));
-        doc.setDescriptions(MapParser.getDescriptions(map));
-        doc.setCreators(MapParser.getCreators(map));
-        doc.setGeoLocations(MapParser.getGeoLocations(map));
-        doc.setRightsList(MapParser.getRightsList(map));
-        doc.setSubjects(MapParser.getSubjects(map, groupTags));
-        doc.setWebLinks(LinkAssembler.getWebLinks(map, baseUrl));
-        doc.setFiles(LinkAssembler.getFiles(map));
+        doc.setTitles(ArcGisMapParser.getTitles(map));
+        doc.setDates(ArcGisMapParser.getDates(map));
+        doc.setDescriptions(ArcGisMapParser.getDescriptions(map));
+        doc.setCreators(ArcGisMapParser.getCreators(map));
+        doc.setGeoLocations(ArcGisMapParser.getGeoLocations(map));
+        doc.setRightsList(ArcGisMapParser.getRightsList(map));
+        doc.setSubjects(ArcGisMapParser.getSubjects(map, groupTags));
+        doc.setWebLinks(ArcGisLinkAssembler.getWebLinks(map, baseUrl));
+        doc.setFiles(ArcGisLinkAssembler.getFiles(map));
 
         return Arrays.asList(doc);
     }

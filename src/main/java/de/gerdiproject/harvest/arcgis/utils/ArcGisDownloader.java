@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.utils;
+package de.gerdiproject.harvest.arcgis.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -35,7 +35,7 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  *
  * @author Robin Weiss
  */
-public class Downloader
+public class ArcGisDownloader
 {
     private static final HttpRequester httpRequester = new HttpRequester();
 

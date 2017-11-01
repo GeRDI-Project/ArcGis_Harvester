@@ -20,8 +20,8 @@ package de.gerdiproject.harvest.harvester;
 
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
-import de.gerdiproject.harvest.harvester.sub.ArcGisFeaturedGroupHarvester;
-import de.gerdiproject.harvest.utils.Downloader;
+import de.gerdiproject.harvest.harvester.subHarvesters.ArcGisFeaturedGroupHarvester;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,6 +43,7 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
         super(createSubHarvesters());
     }
 
+
     /**
      * Creates sub-harvesters for all groups of arcgis.com and esri.maps.arcgis.com
      * @return a list of sub-harvesters for all groups
@@ -61,7 +62,6 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     }
 
 
-
     /**
      * Creates a list of sub-harvesters for harvesting all featured groups of an ArcGis host.
      *
@@ -73,7 +73,7 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     private static List<AbstractHarvester> createSubHarvesters(String baseUrl, String nameSuffix)
     {
         // retrieve list of groups from ArcGis
-        List<ArcGisFeaturedGroup> groups = Downloader.getFeaturedGroupsFromOverview(baseUrl);
+        List<ArcGisFeaturedGroup> groups = ArcGisDownloader.getFeaturedGroupsFromOverview(baseUrl);
 
         List<AbstractHarvester> arcGisHarvesters = new LinkedList<>();
 
