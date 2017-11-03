@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
@@ -113,7 +114,9 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
         DataCiteJson doc = new DataCiteJson();
 
         doc.setLanguage(map.getCulture());
-        doc.setPublisher(ArcGisConstants.PUBLISHER);
+        doc.setPublisher(ArcGisDataCiteConstants.PUBLISHER);
+        doc.setRepositoryIdentifier(ArcGisDataCiteConstants.REPOSITORY_ID);
+        doc.setResearchDisciplines(ArcGisDataCiteConstants.RESEARCH_DISCIPLINES);
         doc.setTitles(ArcGisMapParser.getTitles(map));
         doc.setDates(ArcGisMapParser.getDates(map));
         doc.setDescriptions(ArcGisMapParser.getDescriptions(map));

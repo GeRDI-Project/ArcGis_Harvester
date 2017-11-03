@@ -21,7 +21,7 @@ package de.gerdiproject.harvest.arcgis.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
 import de.gerdiproject.harvest.arcgis.constants.LinkAssemblerConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.json.datacite.extension.ResearchData;
@@ -63,7 +63,7 @@ public class ArcGisLinkAssembler
         // add links
         List<WebLink> webLinks = new LinkedList<>();
 
-        webLinks.add(ArcGisConstants.ESRI_LOGO_LINK);
+        webLinks.add(ArcGisDataCiteConstants.ESRI_LOGO_LINK);
         webLinks.add(getViewLink(mapId, baseUrl));
         webLinks.add(getThumbnailLink(mapId, thumbnailPath, largeThumbnailPath, baseUrl));
         webLinks.add(getSceneViewerLink(mapType, mapId));
@@ -398,7 +398,7 @@ public class ArcGisLinkAssembler
      */
     private static WebLink getViewLink(String mapId, String baseUrl)
     {
-        String url = String.format(ArcGisConstants.VIEW_URL, baseUrl, mapId);
+        String url = String.format(ArcGisDataCiteConstants.VIEW_URL, baseUrl, mapId);
         return createLink(url, LinkAssemblerConstants.VIEW_URL_NAME, WebLinkType.ViewURL);
     }
 }
