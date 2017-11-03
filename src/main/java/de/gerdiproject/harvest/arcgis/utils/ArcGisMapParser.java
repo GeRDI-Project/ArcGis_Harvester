@@ -33,13 +33,15 @@ import de.gerdiproject.json.datacite.Date;
 import de.gerdiproject.json.datacite.Description;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.Title.TitleType;
+import de.gerdiproject.json.datacite.enums.DateType;
+import de.gerdiproject.json.datacite.enums.DescriptionType;
+import de.gerdiproject.json.datacite.enums.NameType;
+import de.gerdiproject.json.datacite.enums.ResourceTypeGeneral;
+import de.gerdiproject.json.datacite.enums.TitleType;
+import de.gerdiproject.json.datacite.nested.PersonName;
 import de.gerdiproject.json.geo.Point;
-import de.gerdiproject.json.datacite.Date.DateType;
-import de.gerdiproject.json.datacite.Description.DescriptionType;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.ResourceType;
-import de.gerdiproject.json.datacite.ResourceType.GeneralResourceType;
 import de.gerdiproject.json.datacite.Rights;
 
 /**
@@ -62,11 +64,8 @@ public class ArcGisMapParser
         ResourceType resourceType = null;
         String typeName = map.getType();
 
-        if (typeName != null) {
-            resourceType = new ResourceType();
-            resourceType.setValue(map.getType());
-            resourceType.setGeneralType(GeneralResourceType.Model);
-        }
+        if (typeName != null)
+            resourceType = new ResourceType(typeName, ResourceTypeGeneral.Model);
 
         return resourceType;
     }
@@ -197,10 +196,13 @@ public class ArcGisMapParser
         // download additional user info
         ArcGisUser owner = ArcGisDownloader.getUser(map.getOwner());
 
-        Creator creator = new Creator(owner.getFullName());
+        PersonName name = new PersonName(owner.getFullName(), NameType.Personal);
+        Creator creator = new Creator(name);
         creator.setGivenName(owner.getFirstName());
         creator.setFamilyName(owner.getLastName());
-        creator.setAffiliation(owner.getProvider());
+
+        if (owner.getProvider() != null)
+            creator.setAffiliations(Arrays.asList(owner.getProvider()));
 
         return Arrays.asList(creator);
     }

@@ -20,8 +20,9 @@ package de.gerdiproject.harvest.arcgis.constants;
 
 import java.util.regex.Pattern;
 
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+
 
 /**
  * A static collection of constants, used for harvesting ArcGis.
