@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.utils;
+package de.gerdiproject.harvest.arcgis.utils;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -48,7 +48,7 @@ import de.gerdiproject.json.datacite.Rights;
  *
  * @author Robin Weiss
  */
-public class MapParser
+public class ArcGisMapParser
 {
     /**
      * Retrieves the resource type of a map.
@@ -184,6 +184,7 @@ public class MapParser
         return dates;
     }
 
+
     /**
      * Retrieves the creator(s) of a map.
      *
@@ -194,7 +195,7 @@ public class MapParser
     public static List<Creator> getCreators(ArcGisMap map)
     {
         // download additional user info
-        ArcGisUser owner = Downloader.getUser(map.getOwner());
+        ArcGisUser owner = ArcGisDownloader.getUser(map.getOwner());
 
         Creator creator = new Creator(owner.getFullName());
         creator.setGivenName(owner.getFirstName());

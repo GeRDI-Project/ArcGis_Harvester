@@ -20,8 +20,8 @@ package de.gerdiproject.harvest.harvester;
 
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
-import de.gerdiproject.harvest.harvester.sub.ArcGisFeaturedGroupHarvester;
-import de.gerdiproject.harvest.utils.Downloader;
+import de.gerdiproject.harvest.harvester.subHarvesters.ArcGisFeaturedGroupHarvester;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +35,6 @@ import java.util.List;
  */
 public class ArcGisHarvester extends AbstractCompositeHarvester
 {
-    private final static List<String> VALID_PARAMS = new LinkedList<>();
-
     /**
      * Simple constructor for harvesting all maps.
      */
@@ -44,6 +42,7 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     {
         super(createSubHarvesters());
     }
+
 
     /**
      * Creates sub-harvesters for all groups of arcgis.com and esri.maps.arcgis.com
@@ -63,7 +62,6 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     }
 
 
-
     /**
      * Creates a list of sub-harvesters for harvesting all featured groups of an ArcGis host.
      *
@@ -75,7 +73,7 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
     private static List<AbstractHarvester> createSubHarvesters(String baseUrl, String nameSuffix)
     {
         // retrieve list of groups from ArcGis
-        List<ArcGisFeaturedGroup> groups = Downloader.getFeaturedGroupsFromOverview(baseUrl);
+        List<ArcGisFeaturedGroup> groups = ArcGisDownloader.getFeaturedGroupsFromOverview(baseUrl);
 
         List<AbstractHarvester> arcGisHarvesters = new LinkedList<>();
 
@@ -87,15 +85,5 @@ public class ArcGisHarvester extends AbstractCompositeHarvester
         });
 
         return arcGisHarvesters;
-    }
-
-    /**
-     * Returns an empty list as there are no properties to be set.
-     * @return an empty list
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return VALID_PARAMS;
     }
 }

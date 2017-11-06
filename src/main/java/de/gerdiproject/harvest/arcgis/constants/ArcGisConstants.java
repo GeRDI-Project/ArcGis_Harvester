@@ -60,6 +60,7 @@ public class ArcGisConstants
         return logoLink;
     }
 
+
     /**
      * Private Constructor, because this is a static class.
      */

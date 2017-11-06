@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.utils;
+package de.gerdiproject.harvest.arcgis.utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,12 +33,12 @@ import de.gerdiproject.json.datacite.WebLink.WebLinkType;
  *
  * @author Robin Weiss
  */
-public class LinkAssembler
+public class ArcGisLinkAssembler
 {
     /**
      * Private Constructor, because this class is static.
      */
-    private LinkAssembler()
+    private ArcGisLinkAssembler()
     {
     }
 
@@ -189,7 +189,6 @@ public class LinkAssembler
 
         return createLink(url, LinkAssemblerConstants.VIEW_URL_NAME, null);
     }
-
 
 
     /**
