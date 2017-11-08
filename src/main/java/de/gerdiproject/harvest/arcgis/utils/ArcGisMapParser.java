@@ -33,6 +33,7 @@ import de.gerdiproject.json.datacite.Date;
 import de.gerdiproject.json.datacite.Description;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
+import de.gerdiproject.json.datacite.abstr.AbstractDate;
 import de.gerdiproject.json.datacite.enums.DateType;
 import de.gerdiproject.json.datacite.enums.DescriptionType;
 import de.gerdiproject.json.datacite.enums.NameType;
@@ -147,9 +148,9 @@ public class ArcGisMapParser
      *
      * @return a list of relevant date
      */
-    public static List<Date> getDates(ArcGisMap map)
+    public static List<AbstractDate> getDates(ArcGisMap map)
     {
-        List<Date> dates = new LinkedList<>();
+        List<AbstractDate> dates = new LinkedList<>();
 
         // add the date of the creation of the map
         dates.add(new Date(map.getCreated(), DateType.Created));
@@ -176,7 +177,7 @@ public class ArcGisMapParser
                 cal.set(year, 0, 1);
 
                 // add year to dates
-                dates.add(new Date(cal, DateType.Collected));
+                dates.add(new Date(cal.getTimeInMillis(), DateType.Collected));
             }
         }
 
@@ -222,8 +223,7 @@ public class ArcGisMapParser
         String licenseInfo = map.getLicenseInfo();
 
         if (licenseInfo != null) {
-            Rights licenseRights = new Rights();
-            licenseRights.setValue(licenseInfo);
+            Rights licenseRights = new Rights(licenseInfo);
 
             rightsList = new LinkedList<>();
             rightsList.add(licenseRights);

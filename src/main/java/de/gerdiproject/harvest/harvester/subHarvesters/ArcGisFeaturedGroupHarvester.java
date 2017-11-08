@@ -125,7 +125,7 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
         doc.setRightsList(ArcGisMapParser.getRightsList(map));
         doc.setSubjects(ArcGisMapParser.getSubjects(map, groupTags));
         doc.setWebLinks(ArcGisLinkAssembler.getWebLinks(map, baseUrl));
-        doc.setFiles(ArcGisLinkAssembler.getFiles(map));
+        doc.setResearchDataList(ArcGisLinkAssembler.getFiles(map));
 
         return Arrays.asList(doc);
     }
