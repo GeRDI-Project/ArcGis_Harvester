@@ -33,13 +33,16 @@ import de.gerdiproject.json.datacite.Date;
 import de.gerdiproject.json.datacite.Description;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.Title.TitleType;
+import de.gerdiproject.json.datacite.abstr.AbstractDate;
+import de.gerdiproject.json.datacite.enums.DateType;
+import de.gerdiproject.json.datacite.enums.DescriptionType;
+import de.gerdiproject.json.datacite.enums.NameType;
+import de.gerdiproject.json.datacite.enums.ResourceTypeGeneral;
+import de.gerdiproject.json.datacite.enums.TitleType;
+import de.gerdiproject.json.datacite.nested.PersonName;
 import de.gerdiproject.json.geo.Point;
-import de.gerdiproject.json.datacite.Date.DateType;
-import de.gerdiproject.json.datacite.Description.DescriptionType;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.ResourceType;
-import de.gerdiproject.json.datacite.ResourceType.GeneralResourceType;
 import de.gerdiproject.json.datacite.Rights;
 
 /**
@@ -62,11 +65,8 @@ public class ArcGisMapParser
         ResourceType resourceType = null;
         String typeName = map.getType();
 
-        if (typeName != null) {
-            resourceType = new ResourceType();
-            resourceType.setValue(map.getType());
-            resourceType.setGeneralType(GeneralResourceType.Model);
-        }
+        if (typeName != null)
+            resourceType = new ResourceType(typeName, ResourceTypeGeneral.Model);
 
         return resourceType;
     }
@@ -148,9 +148,9 @@ public class ArcGisMapParser
      *
      * @return a list of relevant date
      */
-    public static List<Date> getDates(ArcGisMap map)
+    public static List<AbstractDate> getDates(ArcGisMap map)
     {
-        List<Date> dates = new LinkedList<>();
+        List<AbstractDate> dates = new LinkedList<>();
 
         // add the date of the creation of the map
         dates.add(new Date(map.getCreated(), DateType.Created));
@@ -177,7 +177,7 @@ public class ArcGisMapParser
                 cal.set(year, 0, 1);
 
                 // add year to dates
-                dates.add(new Date(cal, DateType.Collected));
+                dates.add(new Date(cal.getTimeInMillis(), DateType.Collected));
             }
         }
 
@@ -197,10 +197,13 @@ public class ArcGisMapParser
         // download additional user info
         ArcGisUser owner = ArcGisDownloader.getUser(map.getOwner());
 
-        Creator creator = new Creator(owner.getFullName());
+        PersonName name = new PersonName(owner.getFullName(), NameType.Personal);
+        Creator creator = new Creator(name);
         creator.setGivenName(owner.getFirstName());
         creator.setFamilyName(owner.getLastName());
-        creator.setAffiliation(owner.getProvider());
+
+        if (owner.getProvider() != null)
+            creator.setAffiliations(Arrays.asList(owner.getProvider()));
 
         return Arrays.asList(creator);
     }
@@ -220,8 +223,7 @@ public class ArcGisMapParser
         String licenseInfo = map.getLicenseInfo();
 
         if (licenseInfo != null) {
-            Rights licenseRights = new Rights();
-            licenseRights.setValue(licenseInfo);
+            Rights licenseRights = new Rights(licenseInfo);
 
             rightsList = new LinkedList<>();
             rightsList.add(licenseRights);

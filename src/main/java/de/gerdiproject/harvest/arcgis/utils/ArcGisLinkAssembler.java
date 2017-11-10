@@ -4,7 +4,7 @@
  *  distributed with this work for additional information
  *  regarding copyright ownership.  The ASF licenses this file
  *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
+ *  "License"); you may not use this ResearchData except in compliance
  *  with the License.  You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
@@ -21,15 +21,15 @@ package de.gerdiproject.harvest.arcgis.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
 import de.gerdiproject.harvest.arcgis.constants.LinkAssemblerConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
-import de.gerdiproject.json.datacite.File;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 /**
- * A static class for parsing and assembling weblinks and file download links for ArcGis documents.
+ * A static class for parsing and assembling weblinks and ResearchData download links for ArcGis documents.
  *
  * @author Robin Weiss
  */
@@ -63,7 +63,7 @@ public class ArcGisLinkAssembler
         // add links
         List<WebLink> webLinks = new LinkedList<>();
 
-        webLinks.add(ArcGisConstants.ESRI_LOGO_LINK);
+        webLinks.add(ArcGisDataCiteConstants.ESRI_LOGO_LINK);
         webLinks.add(getViewLink(mapId, baseUrl));
         webLinks.add(getThumbnailLink(mapId, thumbnailPath, largeThumbnailPath, baseUrl));
         webLinks.add(getSceneViewerLink(mapType, mapId));
@@ -87,19 +87,19 @@ public class ArcGisLinkAssembler
      *
      * @return a list of files that are related to a map
      */
-    public static List<File> getFiles(ArcGisMap map)
+    public static List<ResearchData> getFiles(ArcGisMap map)
     {
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         String mapId = map.getId();
         String mapType = map.getType();
 
-        File arcGisDesktop = getArcGisDesktopLink(mapType, mapId);
+        ResearchData arcGisDesktop = getArcGisDesktopLink(mapType, mapId);
 
         if (arcGisDesktop != null)
             files.add(arcGisDesktop);
 
-        File download = getDownloadLink(mapType, mapId, map.getName());
+        ResearchData download = getDownloadLink(mapType, mapId, map.getName());
 
         if (download != null)
             files.add(download);
@@ -140,12 +140,12 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} that points to a map related page
      */
-    private static File createFile(String url, String linkName, String type)
+    private static ResearchData createFile(String url, String linkName, String type)
     {
-        File file = null;
+        ResearchData file = null;
 
         if (url != null) {
-            file = new File(url, linkName);
+            file = new ResearchData(url, linkName);
             file.setType(type);
         }
 
@@ -233,7 +233,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain File} or null if no URL is defined for the map type
      */
-    private static File getArcGisDesktopLink(String mapType, String mapId)
+    private static ResearchData getArcGisDesktopLink(String mapType, String mapId)
     {
         switch (mapType) {
             case LinkAssemblerConstants.MAP_SERVICE_TYPE:
@@ -263,11 +263,11 @@ public class ArcGisLinkAssembler
      *
      * @param mapType the type of the ArcGis map
      * @param mapId the unique identifier of the map
-     * @param mapName the file name of the map
+     * @param mapName the ResearchData name of the map
      *
      * @return a {@linkplain File} or null if no URL is defined for the map type
      */
-    private static File getDownloadLink(String mapType, String mapId, String mapName)
+    private static ResearchData getDownloadLink(String mapType, String mapId, String mapName)
     {
         if (mapType.equals(LinkAssemblerConstants.LAYER_PACKAGE_TYPE)
             || mapType.equals(LinkAssemblerConstants.CODE_ATTACHMENT_TYPE)
@@ -398,7 +398,7 @@ public class ArcGisLinkAssembler
      */
     private static WebLink getViewLink(String mapId, String baseUrl)
     {
-        String url = String.format(ArcGisConstants.VIEW_URL, baseUrl, mapId);
+        String url = String.format(ArcGisDataCiteConstants.VIEW_URL, baseUrl, mapId);
         return createLink(url, LinkAssemblerConstants.VIEW_URL_NAME, WebLinkType.ViewURL);
     }
 }

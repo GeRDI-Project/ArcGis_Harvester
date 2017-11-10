@@ -20,8 +20,6 @@ package de.gerdiproject.harvest.arcgis.constants;
 
 import java.util.regex.Pattern;
 
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
 /**
  * A static collection of constants, used for harvesting ArcGis.
@@ -41,25 +39,8 @@ public class ArcGisConstants
     public static final String ESRI_SUFFIX = "_EsriHarvester";
 
     public static final Pattern YEAR_PATTERN = Pattern.compile("\\d\\d\\d\\d");
-    public static final String PUBLISHER = "Esri";
 
     public static final String USER_PROFILE_URL = "http://www.arcgis.com/sharing/rest/community/users/%s?f=json";
-    public static final String VIEW_URL = "%s/home/item.html?id=%s";
-
-    public static final WebLink ESRI_LOGO_LINK = createEsriLogoLink();
-
-
-    /**
-     * Creates a weblink that points to the Esri logo.
-     * @return a weblink that points to the Esri logo
-     */
-    private static WebLink createEsriLogoLink()
-    {
-        WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");
-        logoLink.setType(WebLinkType.ProviderLogoURL);
-        return logoLink;
-    }
-
 
     /**
      * Private Constructor, because this is a static class.
