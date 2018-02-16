@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.abstr.AbstractResearch;
+import de.gerdiproject.json.datacite.extension.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 
@@ -36,9 +38,17 @@ public class ArcGisDataCiteConstants
 {
     public static final String PUBLISHER = "Esri";
     public static final String REPOSITORY_ID = "ArcGIS";
-    public static final List<String> RESEARCH_DISCIPLINES = Collections.unmodifiableList(Arrays.asList("Geographic Information"));
+    public static final List<AbstractResearch> RESEARCH_DISCIPLINES = createResearchDisciplines();
     public static final String VIEW_URL = "%s/home/item.html?id=%s";
     public static final WebLink ESRI_LOGO_LINK = createEsriLogoLink();
+
+
+    /**
+     * Private Constructor, because this is a static class.
+     */
+    private ArcGisDataCiteConstants()
+    {
+    }
 
 
     /**
@@ -54,9 +64,16 @@ public class ArcGisDataCiteConstants
 
 
     /**
-     * Private Constructor, because this is a static class.
+     * Creates a list of resarch disciplines that describe ArcGis.
+     *
+     * @return a list of resarch disciplines that describe ArcGis
      */
-    private ArcGisDataCiteConstants()
+    private static List<AbstractResearch> createResearchDisciplines()
     {
+        return Collections.unmodifiableList(Arrays.asList(
+                                                ResearchDisciplineConstants.PHYSICAL_GEOGRAPHY,
+                                                ResearchDisciplineConstants.HUMAN_GEOGRAPHY
+                                            ));
     }
+
 }
