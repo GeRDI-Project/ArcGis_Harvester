@@ -431,4 +431,15 @@ public class ArcGisMap
     {
         this.numViews = numViews;
     }
+
+
+    /**
+     * Returns only the ID. This function is only used to uniquely identify the
+     * map inside a list.
+     */
+    @Override
+    public String toString()
+    {
+        return id;
+    }
 }

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
@@ -48,12 +49,9 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
      * Creates a (sub-) harvester for a group of maps. Each group has a unique
      * groupId.
      *
-     * @param baseUrl
-     *            the host of the maps
-     * @param groupName
-     *            the title of the group of maps that is to be harvested
-     * @param groupId
-     *            the unique ID of the group of maps that is to be harvested
+     * @param baseUrl the host of the maps
+     * @param groupName the title of the group of maps that is to be harvested
+     * @param groupId the unique ID of the group of maps that is to be harvested
      */
     public ArcGisFeaturedGroupHarvester(String baseUrl, String groupName, String groupId)
     {
@@ -71,8 +69,8 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
 
 
     /**
-     * Retrieves all maps in the group. Maps can only be retrieved in
-     * batches of 100. Therefore, each batch of maps must be merged into a single array.
+     * Retrieves all maps in the group. Maps can only be retrieved in batches of
+     * 100. Therefore, each batch of maps must be merged into a single array.
      *
      * @return all maps in the group
      */
@@ -108,7 +106,7 @@ public class ArcGisFeaturedGroupHarvester extends AbstractListHarvester<ArcGisMa
     @Override
     protected List<IDocument> harvestEntry(ArcGisMap map)
     {
-        DataCiteJson doc = new DataCiteJson();
+        DataCiteJson doc = new DataCiteJson(map.getId());
 
         doc.setLanguage(map.getCulture());
         doc.setPublisher(ArcGisDataCiteConstants.PUBLISHER);
