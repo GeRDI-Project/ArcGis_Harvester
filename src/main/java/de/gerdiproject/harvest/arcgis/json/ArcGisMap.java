@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.google.gson.JsonArray;
 
+import de.gerdiproject.harvest.harvester.subHarvesters.ArcGisFeaturedGroupHarvester;
 import de.gerdiproject.json.geo.Point;
 
 /**
@@ -430,5 +431,17 @@ public class ArcGisMap
     public void setNumViews(int numViews)
     {
         this.numViews = numViews;
+    }
+
+
+    /**
+     * Returns only the ID. The string is only used to uniquely identify the map
+     * inside a list to guarantee proper functionality of the
+     * {@linkplain ArcGisFeaturedGroupHarvester}'s initHash() function.
+     */
+    @Override
+    public String toString()
+    {
+        return id;
     }
 }
