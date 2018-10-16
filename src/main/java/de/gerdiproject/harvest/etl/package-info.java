@@ -18,4 +18,4 @@
  *
  * @author Robin Weiss
  */
-package de.gerdiproject.harvest.harvester;
+package de.gerdiproject.harvest.etl;

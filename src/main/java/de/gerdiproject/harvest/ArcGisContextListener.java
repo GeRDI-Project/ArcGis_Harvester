@@ -15,8 +15,17 @@
  */
 package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.harvester.ArcGisHarvester;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.annotation.WebListener;
+
+import de.gerdiproject.harvest.application.ContextListener;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
+import de.gerdiproject.harvest.etl.ArcGisETL;
+import de.gerdiproject.harvest.etls.AbstractETL;
 
 /**
  * This class initializes the ArcGis harvester and all mandatory objects.
@@ -24,6 +33,46 @@ import javax.servlet.annotation.WebListener;
  * @author Robin Weiss
  */
 @WebListener
-public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
+public class ArcGisContextListener extends ContextListener
 {
+
+    @Override
+    protected List<? extends AbstractETL<?, ?>> createETLs()
+    {
+        List<AbstractETL<?, ?>> etlList = new LinkedList<>();
+
+        // add Esri harvesters
+        etlList.addAll(createETLsForURL(ArcGisConstants.ESRI_BASE_URL, ArcGisConstants.ESRI_SUFFIX));
+
+        // add ArcGis harvesters
+        etlList.addAll(createETLsForURL(ArcGisConstants.ARC_GIS_BASE_URL, ArcGisConstants.ARC_GIS_SUFFIX));
+
+        return etlList;
+    }
+    
+
+    /**
+     * Creates a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host.
+     *
+     * @param baseUrl the host of an ArcGis repository that contains featured groups
+     * @param nameSuffix a name suffix used to distinguish sub-harvesters
+     *
+     * @return a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host
+     */
+    private static List<AbstractETL<?, ?>> createETLsForURL(String baseUrl, String nameSuffix)
+    {
+        // retrieve list of groups from ArcGis
+        List<ArcGisFeaturedGroup> groups = ArcGisDownloader.getFeaturedGroupsFromOverview(baseUrl);
+
+        List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
+
+        // create sub-harvesters
+        groups.forEach((ArcGisFeaturedGroup g) -> {
+            final String groupId = g.getId();
+            final String harvesterName = g.getTitle().replace(' ', '-') + nameSuffix;
+            arcGisHarvesters.add(new ArcGisETL(harvesterName, baseUrl, groupId));
+        });
+
+        return arcGisHarvesters;
+    }
 }

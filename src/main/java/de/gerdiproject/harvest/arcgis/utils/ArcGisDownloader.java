@@ -17,9 +17,11 @@ package de.gerdiproject.harvest.arcgis.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import de.gerdiproject.harvest.MainContext;
+import com.google.gson.Gson;
+
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
@@ -34,7 +36,7 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  */
 public class ArcGisDownloader
 {
-    private static final HttpRequester httpRequester = new HttpRequester();
+    private static final HttpRequester httpRequester = new HttpRequester(new Gson(), StandardCharsets.UTF_8);
 
 
     /**
@@ -61,8 +63,8 @@ public class ArcGisDownloader
     public static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
     {
         // get overview object
-        String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
-        ArcGisOverview overviewObj = new HttpRequester().getObjectFromUrl(overviewUrl, ArcGisOverview.class);
+        final String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
+        final ArcGisOverview overviewObj = httpRequester.getObjectFromUrl(overviewUrl, ArcGisOverview.class);
 
         List<ArcGisFeaturedGroup> featuredGroups;
 
@@ -93,7 +95,7 @@ public class ArcGisDownloader
     {
         try {
             String groupDetailsUrl = baseUrl + ArcGisConstants.GROUP_DETAILS_URL_SUFFIX;
-            groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, MainContext.getCharset().displayName()));
+            groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, StandardCharsets.UTF_8.displayName()));
 
             // retrieve details of gallery group
             return httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisFeaturedGroupsResponse.class).getResults();
