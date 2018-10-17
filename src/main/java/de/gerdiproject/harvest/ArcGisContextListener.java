@@ -49,7 +49,7 @@ public class ArcGisContextListener extends ContextListener
 
         return etlList;
     }
-    
+
 
     /**
      * Creates a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host.

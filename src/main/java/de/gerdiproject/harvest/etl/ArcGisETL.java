@@ -20,7 +20,7 @@ import de.gerdiproject.harvest.etls.StaticIteratorETL;
 import de.gerdiproject.json.datacite.DataCiteJson;
 
 /**
- * Harvests a group of maps from ArcGis.
+ * This ETL can harvest a group of maps from ArcGis.
  *
  * @author Robin Weiss
  */
