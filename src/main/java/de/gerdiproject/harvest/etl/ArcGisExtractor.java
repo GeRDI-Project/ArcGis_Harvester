@@ -89,7 +89,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
     @Override
     public int size()
     {
-        return Math.min(super.size(), size);
+        return size;
     }
 
 
