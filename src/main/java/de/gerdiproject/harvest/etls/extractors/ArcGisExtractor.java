@@ -14,19 +14,19 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.etl;
+package de.gerdiproject.harvest.etls.extractors;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
+import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
 import de.gerdiproject.harvest.etls.AbstractETL;
-import de.gerdiproject.harvest.etls.extractors.AbstractIteratorExtractor;
-import de.gerdiproject.harvest.etls.extractors.ExtractorException;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 import de.gerdiproject.json.GsonUtils;
 
@@ -35,7 +35,7 @@ import de.gerdiproject.json.GsonUtils;
  *
  * @author Robin Weiss
  */
-public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
+public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
 {
     private final HttpRequester httpRequester;
     private final String baseUrl;
@@ -43,6 +43,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
 
     private int size;
     private String version;
+    private List<ArcGisFeaturedGroup> featuredGroups;
 
 
     /**
@@ -76,6 +77,9 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
         final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
         this.size = mapsQueryResult.getTotal();
         this.version = mapsQueryResult.getQuery() + size;
+
+        // get featured groups related to the maps
+        this.featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(httpRequester, baseUrl, groupId);
     }
 
 
@@ -94,7 +98,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
 
 
     @Override
-    protected Iterator<ArcGisMap> extractAll() throws ExtractorException
+    protected Iterator<ArcGisMapVO> extractAll() throws ExtractorException
     {
         return new ArcGisMapsIterator();
     }
@@ -107,32 +111,69 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMap>
      *
      * @author Robin Weiss
      */
-    private class ArcGisMapsIterator implements Iterator<ArcGisMap>
+    private class ArcGisMapsIterator implements Iterator<ArcGisMapVO>
     {
-        private final Queue<ArcGisMap> currentBatch = new LinkedList<>();
-        private int startIndex = 1;
+        private Iterator<ArcGisMap> currentBatch;
+        private int startIndex;
+
+        /**
+         * Constructor.
+         */
+        public ArcGisMapsIterator()
+        {
+            this.startIndex = 1;
+            getNextBatch();
+        }
 
 
         @Override
         public boolean hasNext()
         {
-            return !currentBatch.isEmpty() || startIndex != -1;
+            return currentBatch.hasNext() || startIndex != -1;
         }
 
 
         @Override
-        public ArcGisMap next()
+        public ArcGisMapVO next()
         {
             // request the next batch of 100 maps
-            if (currentBatch.isEmpty()) {
-                final String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
-                final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
+            if (!currentBatch.hasNext())
+                getNextBatch();
 
-                this.currentBatch.addAll(mapsQueryResult.getResults());
-                this.startIndex = mapsQueryResult.getNextStart();
-            }
 
-            return currentBatch.remove();
+            final ArcGisMap map = currentBatch.next();
+            return new ArcGisMapVO(
+                       map,
+                       getUser(map),
+                       featuredGroups
+                   );
+        }
+
+
+        /**
+         * Extracts a batch of {@linkplain ArcGisMap}s.
+         */
+        private void getNextBatch()
+        {
+            final String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
+            final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
+
+            this.currentBatch = mapsQueryResult.getResults().iterator();
+            this.startIndex = mapsQueryResult.getNextStart();
+        }
+
+
+        /**
+         * Extracts details of a map owner.
+         *
+         * @param map the map of which the owner is to be extracted
+         *
+         * @return details of the map owner
+         */
+        private ArcGisUser getUser(ArcGisMap map)
+        {
+            String url = String.format(ArcGisConstants.USER_PROFILE_URL, map.getOwner());
+            return httpRequester.getObjectFromUrl(url, ArcGisUser.class);
         }
     }
 }

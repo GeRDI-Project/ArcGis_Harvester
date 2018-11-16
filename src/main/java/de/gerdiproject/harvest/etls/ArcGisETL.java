@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.etl;
+package de.gerdiproject.harvest.etls;
 
-import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
-import de.gerdiproject.harvest.etls.StaticIteratorETL;
+import de.gerdiproject.harvest.etls.extractors.ArcGisExtractor;
+import de.gerdiproject.harvest.etls.extractors.ArcGisMapVO;
+import de.gerdiproject.harvest.etls.transformers.ArcGisTransformer;
 import de.gerdiproject.json.datacite.DataCiteJson;
 
 /**
@@ -24,7 +25,7 @@ import de.gerdiproject.json.datacite.DataCiteJson;
  *
  * @author Robin Weiss
  */
-public class ArcGisETL extends StaticIteratorETL<ArcGisMap, DataCiteJson>
+public class ArcGisETL extends StaticIteratorETL<ArcGisMapVO, DataCiteJson>
 {
     /**
      * Creates an ETL for a group of maps. Each group has a unique groupId.
@@ -38,7 +39,7 @@ public class ArcGisETL extends StaticIteratorETL<ArcGisMap, DataCiteJson>
         super(
             groupName,
             new ArcGisExtractor(baseUrl, groupId),
-            new ArcGisTransformer(baseUrl, groupId)
+            new ArcGisTransformer(baseUrl)
         );
     }
 }

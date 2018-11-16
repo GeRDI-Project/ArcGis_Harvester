@@ -25,33 +25,23 @@ import com.google.gson.Gson;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
-import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 
 /**
- * This class provides methods for downloading raw (meta-) data from ArcGis.
+ * This class provides static methods for downloading raw (meta-) data from ArcGis.
  *
  * @author Robin Weiss
  */
 public class ArcGisDownloader
 {
-    private static final HttpRequester httpRequester = new HttpRequester(new Gson(), StandardCharsets.UTF_8);
-
-
     /**
-     * Gets details of an ArcGis user profile.
-     *
-     * @param userName the unique user name
-     *
-     * @return user details
+     * Private constructor, because only static methods are provided.
      */
-    public static ArcGisUser getUser(String userName)
+    private ArcGisDownloader()
     {
-        String url = String.format(ArcGisConstants.USER_PROFILE_URL, userName);
-        return httpRequester.getObjectFromUrl(url, ArcGisUser.class);
-    }
 
+    }
 
     /**
      * Retrieves a list of featured groups from an ArcGis map host.
@@ -62,6 +52,8 @@ public class ArcGisDownloader
      */
     public static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
     {
+        final HttpRequester httpRequester = new HttpRequester(new Gson(), StandardCharsets.UTF_8);
+
         // get overview object
         final String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
         final ArcGisOverview overviewObj = httpRequester.getObjectFromUrl(overviewUrl, ArcGisOverview.class);
@@ -76,7 +68,7 @@ public class ArcGisDownloader
         else {
             // if the featured groups are missing IDs, get them via another request
             String galleryQuery = overviewObj.getLivingAtlasGroupQuery();
-            featuredGroups = getFeaturedGroupsByQuery(baseUrl, galleryQuery);
+            featuredGroups = getFeaturedGroupsByQuery(httpRequester, baseUrl, galleryQuery);
         }
 
         return featuredGroups;
@@ -86,12 +78,13 @@ public class ArcGisDownloader
     /**
      * Retrieves detailed featured groups from a query request.
      *
+     * @param httpRequester the {@linkplain HttpRequester} that sends the request
      * @param baseUrl the host of the ArcGis map URL
      * @param query the groups query
      *
      * @return a list of detailed featured groups
      */
-    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(String baseUrl, String query)
+    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(HttpRequester httpRequester, String baseUrl, String query)
     {
         try {
             String groupDetailsUrl = baseUrl + ArcGisConstants.GROUP_DETAILS_URL_SUFFIX;

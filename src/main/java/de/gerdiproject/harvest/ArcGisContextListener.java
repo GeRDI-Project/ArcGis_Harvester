@@ -24,8 +24,8 @@ import de.gerdiproject.harvest.application.ContextListener;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
-import de.gerdiproject.harvest.etl.ArcGisETL;
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.ArcGisETL;
 
 /**
  * This class initializes the ArcGis harvester and all mandatory objects.
@@ -67,11 +67,12 @@ public class ArcGisContextListener extends ContextListener
         List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
 
         // create sub-harvesters
-        groups.forEach((ArcGisFeaturedGroup g) -> {
+        for (ArcGisFeaturedGroup g : groups) {
             final String groupId = g.getId();
             final String harvesterName = g.getTitle().replace(' ', '-') + nameSuffix;
+
             arcGisHarvesters.add(new ArcGisETL(harvesterName, baseUrl, groupId));
-        });
+        }
 
         return arcGisHarvesters;
     }

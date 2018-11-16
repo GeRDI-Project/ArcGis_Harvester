@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
- * This package contains classes and packages that are related to the {@linkplain de.gerdiproject.harvest.etl.ArcGisETL}.
+ * This package contains classes and packages that are related to the {@linkplain de.gerdiproject.harvest.etls.ArcGisETL}.
  *
  * @author Robin Weiss
  */
-package de.gerdiproject.harvest.etl;
+package de.gerdiproject.harvest.etls;

@@ -1,0 +1,67 @@
+/*
+ *  Copyright © 2018 Robin Weiss (http://www.gerdi-project.de/)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+package de.gerdiproject.harvest.etls.extractors;
+
+import java.util.List;
+
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
+
+/**
+ * This value object contains extracted data related to an ArcGIS map.
+ *
+ * @author Robin Weiss
+ */
+public class ArcGisMapVO
+{
+    private final ArcGisMap map;
+    private final ArcGisUser owner;
+    private final List<ArcGisFeaturedGroup> featuredGroups;
+
+    /**
+     * Constructor that requires all values.
+     *
+     * @param map the ArcGis map that was extracted
+     * @param owner the owner of the map
+     * @param featuredGroups featured groups related to the map
+     */
+    public ArcGisMapVO(ArcGisMap map, ArcGisUser owner, List<ArcGisFeaturedGroup> featuredGroups)
+    {
+        this.map = map;
+        this.owner = owner;
+        this.featuredGroups = featuredGroups;
+    }
+
+
+    public ArcGisMap getMap()
+    {
+        return map;
+    }
+
+
+    public ArcGisUser getOwner()
+    {
+        return owner;
+    }
+
+
+    public List<ArcGisFeaturedGroup> getFeaturedGroups()
+    {
+        return featuredGroups;
+    }
+}
