@@ -21,47 +21,17 @@ import java.util.List;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
+import lombok.Data;
 
 /**
  * This value object contains extracted data related to an ArcGIS map.
  *
  * @author Robin Weiss
  */
+@Data
 public class ArcGisMapVO
 {
     private final ArcGisMap map;
     private final ArcGisUser owner;
     private final List<ArcGisFeaturedGroup> featuredGroups;
-
-    /**
-     * Constructor that requires all values.
-     *
-     * @param map the ArcGis map that was extracted
-     * @param owner the owner of the map
-     * @param featuredGroups featured groups related to the map
-     */
-    public ArcGisMapVO(ArcGisMap map, ArcGisUser owner, List<ArcGisFeaturedGroup> featuredGroups)
-    {
-        this.map = map;
-        this.owner = owner;
-        this.featuredGroups = featuredGroups;
-    }
-
-
-    public ArcGisMap getMap()
-    {
-        return map;
-    }
-
-
-    public ArcGisUser getOwner()
-    {
-        return owner;
-    }
-
-
-    public List<ArcGisFeaturedGroup> getFeaturedGroups()
-    {
-        return featuredGroups;
-    }
 }
