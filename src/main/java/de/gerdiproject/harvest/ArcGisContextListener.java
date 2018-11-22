@@ -15,17 +15,22 @@
  */
 package de.gerdiproject.harvest;
 
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.annotation.WebListener;
 
+import com.google.gson.Gson;
+
 import de.gerdiproject.harvest.application.ContextListener;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
-import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
+import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.etls.ArcGisETL;
+import de.gerdiproject.harvest.etls.extractors.ArcGisExtractor;
+import de.gerdiproject.harvest.utils.data.HttpRequester;
 
 /**
  * This class initializes the ArcGis harvester and all mandatory objects.
@@ -35,7 +40,6 @@ import de.gerdiproject.harvest.etls.ArcGisETL;
 @WebListener
 public class ArcGisContextListener extends ContextListener
 {
-
     @Override
     protected List<? extends AbstractETL<?, ?>> createETLs()
     {
@@ -62,7 +66,7 @@ public class ArcGisContextListener extends ContextListener
     private static List<AbstractETL<?, ?>> createETLsForURL(String baseUrl, String nameSuffix)
     {
         // retrieve list of groups from ArcGis
-        List<ArcGisFeaturedGroup> groups = ArcGisDownloader.getFeaturedGroupsFromOverview(baseUrl);
+        List<ArcGisFeaturedGroup> groups = getFeaturedGroupsFromOverview(baseUrl);
 
         List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
 
@@ -75,5 +79,37 @@ public class ArcGisContextListener extends ContextListener
         }
 
         return arcGisHarvesters;
+    }
+
+
+    /**
+     * Retrieves a list of featured groups from an ArcGis map host.
+     *
+     * @param baseUrl the host of the ArcGis map URL
+     *
+     * @return a list of featured groups
+     */
+    private static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
+    {
+        final HttpRequester httpRequester = new HttpRequester(new Gson(), StandardCharsets.UTF_8);
+
+        // get overview object
+        final String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
+        final ArcGisOverview overviewObj = httpRequester.getObjectFromUrl(overviewUrl, ArcGisOverview.class);
+
+        List<ArcGisFeaturedGroup> featuredGroups;
+
+        // check if the featured groups array has group IDs
+        boolean hasFeaturedGroupIDs = overviewObj.getFeaturedGroups().get(0).getId() != null;
+
+        if (hasFeaturedGroupIDs)
+            featuredGroups = overviewObj.getFeaturedGroups();
+        else {
+            // if the featured groups are missing IDs, get them via another request
+            String galleryQuery = overviewObj.getLivingAtlasGroupQuery();
+            featuredGroups = ArcGisExtractor.getFeaturedGroupsByQuery(httpRequester, baseUrl, galleryQuery);
+        }
+
+        return featuredGroups;
     }
 }

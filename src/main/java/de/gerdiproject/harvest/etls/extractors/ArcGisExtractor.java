@@ -16,6 +16,8 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
@@ -24,8 +26,8 @@ import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
+import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
-import de.gerdiproject.harvest.arcgis.utils.ArcGisDownloader;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 import de.gerdiproject.json.GsonUtils;
@@ -79,7 +81,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         this.version = mapsQueryResult.getQuery() + size;
 
         // get featured groups related to the maps
-        this.featuredGroups = ArcGisDownloader.getFeaturedGroupsByQuery(httpRequester, baseUrl, groupId);
+        this.featuredGroups = getFeaturedGroupsByQuery(httpRequester, baseUrl, groupId);
     }
 
 
@@ -174,6 +176,31 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         {
             String url = String.format(ArcGisConstants.USER_PROFILE_URL, map.getOwner());
             return httpRequester.getObjectFromUrl(url, ArcGisUser.class);
+        }
+    }
+
+
+    /**
+     * Retrieves detailed featured groups from a query request.
+     *
+     * @param httpRequester the {@linkplain HttpRequester} that sends the request
+     * @param baseUrl the host of the ArcGis map URL
+     * @param query the groups query
+     *
+     * @return a list of detailed featured groups
+     */
+    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(HttpRequester httpRequester, String baseUrl, String query)
+    {
+        try {
+            String groupDetailsUrl = baseUrl + ArcGisConstants.GROUP_DETAILS_URL_SUFFIX;
+            groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, StandardCharsets.UTF_8.displayName()));
+
+            // retrieve details of gallery group
+            return httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisFeaturedGroupsResponse.class).getResults();
+
+        } catch (UnsupportedEncodingException e) {
+            // this should never happen, because UTF-8 is a valid encoding
+            return null;
         }
     }
 }
