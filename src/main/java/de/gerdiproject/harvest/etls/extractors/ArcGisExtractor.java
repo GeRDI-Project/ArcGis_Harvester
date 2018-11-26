@@ -30,7 +30,6 @@ import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse
 import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  * This extractor retrieves {@linkplain ArcGisMap}s from a specified URL and GroupID.
@@ -63,10 +62,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         this.baseUrl = baseUrl;
         this.groupId = groupId;
 
-        this.httpRequester = new HttpRequester(
-            GsonUtils.createGeoJsonGsonBuilder().create(),
-            StandardCharsets.UTF_8
-        );
+        this.httpRequester = new HttpRequester();
     }
 
 

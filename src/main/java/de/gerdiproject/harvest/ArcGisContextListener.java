@@ -15,13 +15,10 @@
  */
 package de.gerdiproject.harvest;
 
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.annotation.WebListener;
-
-import com.google.gson.Gson;
 
 import de.gerdiproject.harvest.application.ContextListener;
 import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
@@ -91,7 +88,7 @@ public class ArcGisContextListener extends ContextListener
      */
     private static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
     {
-        final HttpRequester httpRequester = new HttpRequester(new Gson(), StandardCharsets.UTF_8);
+        final HttpRequester httpRequester = new HttpRequester();
 
         // get overview object
         final String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
