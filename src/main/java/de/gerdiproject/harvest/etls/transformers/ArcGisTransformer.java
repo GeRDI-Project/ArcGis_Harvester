@@ -95,7 +95,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         doc.addGeoLocations(getGeoLocations(map));
         doc.addRights(getRightsList(map));
         doc.addWebLinks(getWebLinks(map));
-        doc.addResearchDataList(getResearchData(map));
+        doc.addResearchData(getResearchData(map));
         doc.setResourceType(getResourceType(map));
 
         return doc;
