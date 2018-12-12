@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.arcgis.utils;
+package de.gerdiproject.harvest.etls.transformers.utils;
 
 import java.io.File;
 import java.util.List;
 
 import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
 import de.gerdiproject.harvest.arcgis.constants.LinkAssemblerConstants;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.ResearchData;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  * A static class for parsing and assembling ArcGis web links for ArcGis documents.
