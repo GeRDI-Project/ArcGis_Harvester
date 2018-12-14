@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
- * This package contains classes and packages that are related to the {@linkplain de.gerdiproject.harvest.harvester.AbstractHarvester} and its sub-classes.
+ * This package contains classes and packages that are related to the {@linkplain de.gerdiproject.harvest.etls.ArcGisETL}.
  *
  * @author Robin Weiss
  */
-package de.gerdiproject.harvest.harvester;
+package de.gerdiproject.harvest.etls;

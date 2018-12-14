@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
- * This package contains utility classes used for processing ArcGis data.
+ * This package contains utility classes used for transforming ArcGis data.
  *
  * @author Robin Weiss
  */
-package de.gerdiproject.harvest.arcgis.utils;
+package de.gerdiproject.harvest.etls.transformers.utils;
