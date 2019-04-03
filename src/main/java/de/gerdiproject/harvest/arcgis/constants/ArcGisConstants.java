@@ -26,14 +26,15 @@ import java.util.regex.Pattern;
 public class ArcGisConstants
 {
     public static final String MAPS_URL = "%s/sharing/rest/search?q=%%20group%%3A%s%%20&sortField=title&sortOrder=asc&start=%d&num=100&f=json";
+    public static final String MAPS_INFO_URL = "%s/sharing/rest/search?q=%%20group%%3A%s%%20&num=0&f=json";
 
     public static final String ARC_GIS_BASE_URL = "http://arcgis.com";
     public static final String ESRI_BASE_URL = "http://esri.maps.arcgis.com";
     public static final String OVERVIEW_URL_SUFFIX = "/sharing/rest/portals/self?culture=en&f=json";
     public static final String GROUP_DETAILS_URL_SUFFIX = "/sharing/rest/community/groups?q=%s&f=json";
 
-    public static final String ARC_GIS_SUFFIX = "_ArcGisHarvester";
-    public static final String ESRI_SUFFIX = "_EsriHarvester";
+    public static final String ARC_GIS_SUFFIX = "_ArcGisETL";
+    public static final String ESRI_SUFFIX = "_EsriETL";
 
     public static final Pattern YEAR_PATTERN = Pattern.compile("\\d\\d\\d\\d");
 
