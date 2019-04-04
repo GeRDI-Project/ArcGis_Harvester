@@ -15,8 +15,19 @@
  */
 package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.harvester.ArcGisHarvester;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.annotation.WebListener;
+
+import de.gerdiproject.harvest.application.ContextListener;
+import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisOverview;
+import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.ArcGisETL;
+import de.gerdiproject.harvest.etls.extractors.ArcGisExtractor;
+import de.gerdiproject.harvest.utils.data.HttpRequester;
 
 /**
  * This class initializes the ArcGis harvester and all mandatory objects.
@@ -24,6 +35,78 @@ import javax.servlet.annotation.WebListener;
  * @author Robin Weiss
  */
 @WebListener
-public class ArcGisContextListener extends ContextListener<ArcGisHarvester>
+public class ArcGisContextListener extends ContextListener
 {
+    @Override
+    protected List<? extends AbstractETL<?, ?>> createETLs()
+    {
+        List<AbstractETL<?, ?>> etlList = new LinkedList<>();
+
+        // add Esri harvesters
+        etlList.addAll(createETLsForURL(ArcGisConstants.ESRI_BASE_URL, ArcGisConstants.ESRI_SUFFIX));
+
+        // add ArcGis harvesters
+        etlList.addAll(createETLsForURL(ArcGisConstants.ARC_GIS_BASE_URL, ArcGisConstants.ARC_GIS_SUFFIX));
+
+        return etlList;
+    }
+
+
+    /**
+     * Creates a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host.
+     *
+     * @param baseUrl the host of an ArcGis repository that contains featured groups
+     * @param nameSuffix a name suffix used to distinguish sub-harvesters
+     *
+     * @return a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host
+     */
+    private static List<AbstractETL<?, ?>> createETLsForURL(String baseUrl, String nameSuffix)
+    {
+        // retrieve list of groups from ArcGis
+        List<ArcGisFeaturedGroup> groups = getFeaturedGroupsFromOverview(baseUrl);
+
+        List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
+
+        // create sub-harvesters
+        for (ArcGisFeaturedGroup g : groups) {
+            final String groupId = g.getId();
+            final String harvesterName = g.getTitle().replace(' ', '-') + nameSuffix;
+
+            arcGisHarvesters.add(new ArcGisETL(harvesterName, baseUrl, groupId));
+        }
+
+        return arcGisHarvesters;
+    }
+
+
+    /**
+     * Retrieves a list of featured groups from an ArcGis map host.
+     *
+     * @param baseUrl the host of the ArcGis map URL
+     *
+     * @return a list of featured groups
+     */
+    private static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
+    {
+        final HttpRequester httpRequester = new HttpRequester();
+
+        // get overview object
+        final String overviewUrl = baseUrl + ArcGisConstants.OVERVIEW_URL_SUFFIX;
+        final ArcGisOverview overviewObj = httpRequester.getObjectFromUrl(overviewUrl, ArcGisOverview.class);
+
+        List<ArcGisFeaturedGroup> featuredGroups;
+
+        // check if the featured groups array has group IDs
+        boolean hasFeaturedGroupIDs = overviewObj.getFeaturedGroups().get(0).getId() != null;
+
+        if (hasFeaturedGroupIDs)
+            featuredGroups = overviewObj.getFeaturedGroups();
+        else {
+            // if the featured groups are missing IDs, get them via another request
+            String galleryQuery = overviewObj.getLivingAtlasGroupQuery();
+            featuredGroups = ArcGisExtractor.getFeaturedGroupsByQuery(httpRequester, baseUrl, galleryQuery);
+        }
+
+        return featuredGroups;
+    }
 }
