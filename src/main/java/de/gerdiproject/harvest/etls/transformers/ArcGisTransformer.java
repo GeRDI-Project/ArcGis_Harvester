@@ -67,7 +67,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @param baseUrl the ArcGis base URL
      */
-    public ArcGisTransformer(String baseUrl)
+    public ArcGisTransformer(final String baseUrl)
     {
         super();
         this.baseUrl = baseUrl;
@@ -117,10 +117,10 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return the resource type of a map
      */
-    private ResourceType getResourceType(ArcGisMap map)
+    private ResourceType getResourceType(final ArcGisMap map)
     {
         ResourceType resourceType = null;
-        String typeName = map.getType();
+        final String typeName = map.getType();
 
         if (typeName != null)
             resourceType = new ResourceType(typeName, ResourceTypeGeneral.Model);
@@ -136,25 +136,25 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of all titles of the map
      */
-    private List<Title> getTitles(ArcGisMap map)
+    private List<Title> getTitles(final ArcGisMap map)
     {
-        List<Title> titles = new LinkedList<>();
+        final List<Title> titles = new LinkedList<>();
 
         // check if a title exists
-        String titleText = map.getTitle();
+        final String titleText = map.getTitle();
 
         if (titleText != null) {
-            Title mainTitle = new Title(titleText);
+            final Title mainTitle = new Title(titleText);
             mainTitle.setLang(map.getCulture());
 
             titles.add(mainTitle);
         }
 
         // check if an alternative title exists
-        String altTitleText = map.getName();
+        final String altTitleText = map.getName();
 
         if (altTitleText != null) {
-            Title alternativeTitle = new Title(altTitleText);
+            final Title alternativeTitle = new Title(altTitleText);
             alternativeTitle.setType(TitleType.AlternativeTitle);
             alternativeTitle.setLang(map.getCulture());
 
@@ -172,24 +172,24 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of all map descriptions
      */
-    private List<Description> getDescriptions(ArcGisMap map)
+    private List<Description> getDescriptions(final ArcGisMap map)
     {
-        List<Description> descriptions = new LinkedList<>();
+        final List<Description> descriptions = new LinkedList<>();
 
         // get full description
-        String descriptionText = map.getDescription();
+        final String descriptionText = map.getDescription();
 
         if (descriptionText != null) {
-            Description fullDescription = new Description(descriptionText, DescriptionType.Abstract);
+            final Description fullDescription = new Description(descriptionText, DescriptionType.Abstract);
             fullDescription.setLang(map.getCulture());
             descriptions.add(fullDescription);
         }
 
         // get snippet description
-        String snippetText = map.getSnippet();
+        final String snippetText = map.getSnippet();
 
         if (snippetText != null) {
-            Description snippetDescription = new Description(snippetText, DescriptionType.Abstract);
+            final Description snippetDescription = new Description(snippetText, DescriptionType.Abstract);
             snippetDescription.setLang(map.getCulture());
             descriptions.add(snippetDescription);
         }
@@ -205,9 +205,9 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of relevant date
      */
-    private List<AbstractDate> getDates(ArcGisMap map)
+    private List<AbstractDate> getDates(final ArcGisMap map)
     {
-        List<AbstractDate> dates = new LinkedList<>();
+        final List<AbstractDate> dates = new LinkedList<>();
 
         // add the date of the creation of the map
         dates.add(new Date(map.getCreated(), DateType.Created));
@@ -218,17 +218,17 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         // add dates that relate to the map data itself
 
         // get map tags
-        List<String> mapTags = map.getTags();
-        Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
+        final List<String> mapTags = map.getTags();
+        final Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
 
         // look for years in the map tags
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
 
-        for (String tag : mapTags) {
+        for (final String tag : mapTags) {
 
             // check if the tag is a year
             if (yearPattern.matcher(tag).matches()) {
-                int year = Integer.parseInt(tag);
+                final int year = Integer.parseInt(tag);
 
                 // convert year to timestamp
                 cal.set(year, 0, 1);
@@ -249,7 +249,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of creators
      */
-    private List<Creator> getCreators(ArcGisUser owner)
+    private List<Creator> getCreators(final ArcGisUser owner)
     {
         final PersonName name = new PersonName(owner.getFullName(), NameType.Personal);
         final Creator creator = new Creator(name);
@@ -271,13 +271,13 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      * @return a list of rights of a map,
      * or null if the map does not provide any rights
      */
-    private List<Rights> getRightsList(ArcGisMap map)
+    private List<Rights> getRightsList(final ArcGisMap map)
     {
         List<Rights> rightsList = null;
-        String licenseInfo = map.getLicenseInfo();
+        final String licenseInfo = map.getLicenseInfo();
 
         if (licenseInfo != null) {
-            Rights licenseRights = new Rights(licenseInfo);
+            final Rights licenseRights = new Rights(licenseInfo);
 
             rightsList = new LinkedList<>();
             rightsList.add(licenseRights);
@@ -295,22 +295,22 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      * @return a GeoLocation that includes the bounding box of the map,
      * or null if the map does not provide any geo data
      */
-    private List<GeoLocation> getGeoLocations(ArcGisMap map)
+    private List<GeoLocation> getGeoLocations(final ArcGisMap map)
     {
         // get the two points that describe the map boundaries
-        List<Point> extent = map.getExtent();
+        final List<Point> extent = map.getExtent();
 
         if (extent == null || extent.isEmpty())
             return null;
 
-        Point northWest = extent.get(0);
-        Point southEast = extent.get(1);
+        final Point northWest = extent.get(0);
+        final Point southEast = extent.get(1);
 
         // create box
-        GeoLocation geoBox = new GeoLocation();
+        final GeoLocation geoBox = new GeoLocation();
         geoBox.setBox(northWest.getLongitude(), southEast.getLongitude(), southEast.getLatitude(), northWest.getLongitude());
 
-        List<GeoLocation> geoList = new LinkedList<>();
+        final List<GeoLocation> geoList = new LinkedList<>();
         geoList.add(geoBox);
         return geoList;
     }
@@ -323,20 +323,20 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      * @param groupTags a list of tags of the map group that contains the map
      * @return a JSON array of tags for a map
      */
-    private List<Subject> getSubjects(ArcGisMap map)
+    private List<Subject> getSubjects(final ArcGisMap map)
     {
-        List<Subject> subjects = new LinkedList<>();
+        final List<Subject> subjects = new LinkedList<>();
 
-        Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
-        String language = map.getCulture();
+        final Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
+        final String language = map.getCulture();
         List<String> tags = map.getTags();
 
         // add tags
-        tags.forEach((String tag) -> {
+        tags.forEach((final String tag) -> {
             // only add tag if it is not a year
             if (!yearPattern.matcher(tag).matches())
             {
-                Subject s = new Subject(tag);
+                final Subject s = new Subject(tag);
                 s.setLang(language);
                 subjects.add(s);
             }
@@ -344,12 +344,12 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
 
         // add type keywords
         tags = map.getTypeKeywords();
-        tags.forEach((String tag) ->
+        tags.forEach((final String tag) ->
                      subjects.add(new Subject(tag))
                     );
 
         // add spatial reference
-        String spatialRefName = map.getSpatialReference();
+        final String spatialRefName = map.getSpatialReference();
 
         if (spatialRefName != null)
             subjects.add(new Subject(spatialRefName));
@@ -366,7 +366,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of weblinks that are related to the map
      */
-    private List<WebLink> getWebLinks(ArcGisMap map)
+    private List<WebLink> getWebLinks(final ArcGisMap map)
     {
         final String mapId = map.getId();
         final String mapType = map.getType();
@@ -376,7 +376,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final List<String> keywords = map.getTypeKeywords();
 
         // add links
-        List<WebLink> webLinks = new LinkedList<>();
+        final List<WebLink> webLinks = new LinkedList<>();
 
         webLinks.add(ArcGisDataCiteConstants.ESRI_LOGO_LINK);
         webLinks.add(ArcGisLinkAssembler.getViewLink(mapId, baseUrl));
@@ -389,7 +389,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         webLinks.add(ArcGisLinkAssembler.getOpenDocumentLink(mapType, mapUrl));
 
         // remove null links
-        webLinks.removeIf((WebLink link) -> link == null);
+        webLinks.removeIf((final WebLink link) -> link == null);
 
         return webLinks;
     }
@@ -402,19 +402,19 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of {@linkplain ResearchData} that are related to a map
      */
-    private List<ResearchData> getResearchData(ArcGisMap map)
+    private List<ResearchData> getResearchData(final ArcGisMap map)
     {
-        List<ResearchData> files = new LinkedList<>();
+        final List<ResearchData> files = new LinkedList<>();
 
-        String mapId = map.getId();
-        String mapType = map.getType();
+        final String mapId = map.getId();
+        final String mapType = map.getType();
 
-        ResearchData arcGisDesktop = ArcGisLinkAssembler.getArcGisDesktopLink(mapType, mapId);
+        final ResearchData arcGisDesktop = ArcGisLinkAssembler.getArcGisDesktopLink(mapType, mapId);
 
         if (arcGisDesktop != null)
             files.add(arcGisDesktop);
 
-        ResearchData download = ArcGisLinkAssembler.getDownloadLink(mapType, mapId, map.getName());
+        final ResearchData download = ArcGisLinkAssembler.getDownloadLink(mapType, mapId, map.getName());
 
         if (download != null)
             files.add(download);
@@ -429,13 +429,13 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      *
      * @return a list of {@linkplain Subject}s that are related to groups of maps
      */
-    private List<Subject> createGroupTags(List<ArcGisFeaturedGroup> groups)
+    private List<Subject> createGroupTags(final List<ArcGisFeaturedGroup> groups)
     {
-        List<Subject> subjects = new LinkedList<>();
+        final List<Subject> subjects = new LinkedList<>();
 
         // convert each tag of each group to a subject
-        groups.forEach((ArcGisFeaturedGroup group) ->
-                       group.getTags().forEach((String tag) ->
+        groups.forEach((final ArcGisFeaturedGroup group) ->
+                       group.getTags().forEach((final String tag) ->
                                                subjects.add(new Subject(tag))
                                               )
                       );

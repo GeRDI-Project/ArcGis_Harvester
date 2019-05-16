@@ -48,7 +48,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} that points to a map related page
      */
-    public static WebLink createLink(String url, String linkName, WebLinkType type)
+    public static WebLink createLink(final String url, final String linkName, final WebLinkType type)
     {
         WebLink link = null;
 
@@ -71,7 +71,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} that points to a map related page
      */
-    public static ResearchData createFile(String url, String linkName, String type)
+    public static ResearchData createFile(final String url, final String linkName, final String type)
     {
         ResearchData file = null;
 
@@ -93,7 +93,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getMapViewerLink(String mapType, String mapId)
+    public static WebLink getMapViewerLink(final String mapType, final String mapId)
     {
         String url;
 
@@ -131,7 +131,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getSceneViewerLink(String mapType, String mapId)
+    public static WebLink getSceneViewerLink(final String mapType, final String mapId)
     {
         String url;
 
@@ -164,7 +164,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain File} or null if no URL is defined for the map type
      */
-    public static ResearchData getArcGisDesktopLink(String mapType, String mapId)
+    public static ResearchData getArcGisDesktopLink(final String mapType, final String mapId)
     {
         switch (mapType) {
             case LinkAssemblerConstants.MAP_SERVICE_TYPE:
@@ -198,7 +198,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain File} or null if no URL is defined for the map type
      */
-    public static ResearchData getDownloadLink(String mapType, String mapId, String mapName)
+    public static ResearchData getDownloadLink(final String mapType, final String mapId, final String mapName)
     {
         if (mapType.equals(LinkAssemblerConstants.LAYER_PACKAGE_TYPE)
             || mapType.equals(LinkAssemblerConstants.CODE_ATTACHMENT_TYPE)
@@ -221,7 +221,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getStyleViewerLink(String mapType, String mapId)
+    public static WebLink getStyleViewerLink(final String mapType, final String mapId)
     {
         if (mapType.equals(LinkAssemblerConstants.VECTOR_TILE_SERVICE_TYPE))
             return createLink(
@@ -242,7 +242,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getMetadataLink(String mapId, List<String> mapTypeKeywords)
+    public static WebLink getMetadataLink(final String mapId, final List<String> mapTypeKeywords)
     {
         if (mapTypeKeywords.contains(LinkAssemblerConstants.METADATA_TYPE_KEYWORD))
             return createLink(
@@ -263,7 +263,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getOpenDocumentLink(String mapType, String mapUrl)
+    public static WebLink getOpenDocumentLink(final String mapType, final String mapUrl)
     {
         if (mapUrl != null && mapType.equals(LinkAssemblerConstants.DOCUMENT_LINK_TYPE))
             return createLink(mapUrl, LinkAssemblerConstants.DOCUMENT_VIEWER_NAME, null);
@@ -281,7 +281,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getApplicationViewLink(String mapType, String mapUrl)
+    public static WebLink getApplicationViewLink(final String mapType, final String mapUrl)
     {
         if (mapUrl != null && (mapType.equals(LinkAssemblerConstants.MOBILE_APP_TYPE) || mapType.equals(LinkAssemblerConstants.WEB_APP_TYPE)))
             return createLink(mapUrl, LinkAssemblerConstants.APPLICATION_VIEWER_NAME, null);
@@ -301,7 +301,7 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} or null if no URL is defined for the map type
      */
-    public static WebLink getThumbnailLink(String mapId, String thumbnailPath, String largeThumbnailPath, String baseUrl)
+    public static WebLink getThumbnailLink(final String mapId, final String thumbnailPath, final String largeThumbnailPath, final String baseUrl)
     {
         String url = null;
 
@@ -327,9 +327,9 @@ public class ArcGisLinkAssembler
      *
      * @return a {@linkplain WebLink} that points to a map details page
      */
-    public static WebLink getViewLink(String mapId, String baseUrl)
+    public static WebLink getViewLink(final String mapId, final String baseUrl)
     {
-        String url = String.format(ArcGisDataCiteConstants.VIEW_URL, baseUrl, mapId);
+        final String url = String.format(ArcGisDataCiteConstants.VIEW_URL, baseUrl, mapId);
         return createLink(url, LinkAssemblerConstants.VIEW_URL_NAME, WebLinkType.ViewURL);
     }
 }

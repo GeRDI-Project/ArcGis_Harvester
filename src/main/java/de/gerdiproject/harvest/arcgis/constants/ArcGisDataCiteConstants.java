@@ -49,7 +49,7 @@ public class ArcGisDataCiteConstants
      */
     private static WebLink createEsriLogoLink()
     {
-        WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");
+        final WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");
         logoLink.setType(WebLinkType.ProviderLogoURL);
         return logoLink;
     }
