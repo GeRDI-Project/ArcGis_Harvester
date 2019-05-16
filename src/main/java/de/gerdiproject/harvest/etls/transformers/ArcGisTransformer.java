@@ -29,7 +29,7 @@ import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.etls.extractors.ArcGisMapVO;
-import de.gerdiproject.harvest.etls.transformers.utils.ArcGisLinkAssembler;
+import de.gerdiproject.harvest.etls.transformers.utils.ArcGisLinkHelper;
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Date;
@@ -379,14 +379,14 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final List<WebLink> webLinks = new LinkedList<>();
 
         webLinks.add(ArcGisDataCiteConstants.ESRI_LOGO_LINK);
-        webLinks.add(ArcGisLinkAssembler.getViewLink(mapId, baseUrl));
-        webLinks.add(ArcGisLinkAssembler.getThumbnailLink(mapId, thumbnailPath, largeThumbnailPath, baseUrl));
-        webLinks.add(ArcGisLinkAssembler.getSceneViewerLink(mapType, mapId));
-        webLinks.add(ArcGisLinkAssembler.getMapViewerLink(mapType, mapId));
-        webLinks.add(ArcGisLinkAssembler.getStyleViewerLink(mapType, mapId));
-        webLinks.add(ArcGisLinkAssembler.getMetadataLink(mapId, keywords));
-        webLinks.add(ArcGisLinkAssembler.getApplicationViewLink(mapType, mapUrl));
-        webLinks.add(ArcGisLinkAssembler.getOpenDocumentLink(mapType, mapUrl));
+        webLinks.add(ArcGisLinkHelper.getViewLink(mapId, baseUrl));
+        webLinks.add(ArcGisLinkHelper.getThumbnailLink(mapId, thumbnailPath, largeThumbnailPath, baseUrl));
+        webLinks.add(ArcGisLinkHelper.getSceneViewerLink(mapType, mapId));
+        webLinks.add(ArcGisLinkHelper.getMapViewerLink(mapType, mapId));
+        webLinks.add(ArcGisLinkHelper.getStyleViewerLink(mapType, mapId));
+        webLinks.add(ArcGisLinkHelper.getMetadataLink(mapId, keywords));
+        webLinks.add(ArcGisLinkHelper.getApplicationViewLink(mapType, mapUrl));
+        webLinks.add(ArcGisLinkHelper.getOpenDocumentLink(mapType, mapUrl));
 
         // remove null links
         webLinks.removeIf((final WebLink link) -> link == null);
@@ -409,12 +409,12 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final String mapId = map.getId();
         final String mapType = map.getType();
 
-        final ResearchData arcGisDesktop = ArcGisLinkAssembler.getArcGisDesktopLink(mapType, mapId);
+        final ResearchData arcGisDesktop = ArcGisLinkHelper.getArcGisDesktopLink(mapType, mapId);
 
         if (arcGisDesktop != null)
             files.add(arcGisDesktop);
 
-        final ResearchData download = ArcGisLinkAssembler.getDownloadLink(mapType, mapId, map.getName());
+        final ResearchData download = ArcGisLinkHelper.getDownloadLink(mapType, mapId, map.getName());
 
         if (download != null)
             files.add(download);

@@ -37,13 +37,14 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  */
 public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
 {
-    private final HttpRequester httpRequester;
-    private final String baseUrl;
-    private final String groupId;
+    // protected fields accessed by the inner iterator class
+    protected final HttpRequester httpRequester;
+    protected final String baseUrl;
+    protected final String groupId;
+    protected List<ArcGisFeaturedGroup> featuredGroups;
 
-    private int size;
+    private int mapCount;
     private String version;
-    private List<ArcGisFeaturedGroup> featuredGroups;
 
 
     /**
@@ -56,7 +57,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
     {
         super();
 
-        this.size = -1;
+        this.mapCount = -1;
         this.version = null;
         this.baseUrl = baseUrl;
         this.groupId = groupId;
@@ -73,8 +74,8 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         final String mapsUrl = String.format(ArcGisConstants.MAPS_INFO_URL, baseUrl, groupId);
         final GenericArcGisResponse<ArcGisMap> mapsQueryResult =
             httpRequester.getObjectFromUrl(mapsUrl, ArcGisConstants.MAPS_RESPONSE_TYPE);
-        this.size = mapsQueryResult.getTotal();
-        this.version = mapsQueryResult.getQuery() + size;
+        this.mapCount = mapsQueryResult.getTotal();
+        this.version = mapsQueryResult.getQuery() + mapCount;
 
         // get featured groups related to the maps
         this.featuredGroups = getFeaturedGroupsByQuery(httpRequester, baseUrl, groupId);
@@ -91,7 +92,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
     @Override
     public int size()
     {
-        return size;
+        return mapCount;
     }
 
 
@@ -127,7 +128,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         public ArcGisMapsIterator()
         {
             this.startIndex = 1;
-            getNextBatch();
+            downloadNextBatch();
         }
 
 
@@ -143,7 +144,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         {
             // request the next batch of 100 maps
             if (!currentBatch.hasNext())
-                getNextBatch();
+                downloadNextBatch();
 
 
             final ArcGisMap map = currentBatch.next();
@@ -158,7 +159,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         /**
          * Extracts a batch of {@linkplain ArcGisMap}s.
          */
-        private void getNextBatch()
+        private void downloadNextBatch()
         {
             final String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
             final GenericArcGisResponse<ArcGisMap> mapsQueryResult =

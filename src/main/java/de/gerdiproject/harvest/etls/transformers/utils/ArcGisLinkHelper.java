@@ -23,22 +23,17 @@ import de.gerdiproject.harvest.arcgis.constants.LinkAssemblerConstants;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * A static class for parsing and assembling ArcGis web links for ArcGis documents.
  *
  * @author Robin Weiss
  */
-public class ArcGisLinkAssembler
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ArcGisLinkHelper
 {
-    /**
-     * Private Constructor, because this class is static.
-     */
-    private ArcGisLinkAssembler()
-    {
-    }
-
-
     /**
      * Creates a generic {@linkplain WebLink} that points to a map related page.
      *
@@ -283,10 +278,10 @@ public class ArcGisLinkAssembler
      */
     public static WebLink getApplicationViewLink(final String mapType, final String mapUrl)
     {
-        if (mapUrl != null && (mapType.equals(LinkAssemblerConstants.MOBILE_APP_TYPE) || mapType.equals(LinkAssemblerConstants.WEB_APP_TYPE)))
-            return createLink(mapUrl, LinkAssemblerConstants.APPLICATION_VIEWER_NAME, null);
-        else
+        if (mapUrl == null || !mapType.equals(LinkAssemblerConstants.MOBILE_APP_TYPE) && !mapType.equals(LinkAssemblerConstants.WEB_APP_TYPE))
             return null;
+        else
+            return createLink(mapUrl, LinkAssemblerConstants.APPLICATION_VIEWER_NAME, null);
     }
 
 
@@ -303,18 +298,15 @@ public class ArcGisLinkAssembler
      */
     public static WebLink getThumbnailLink(final String mapId, final String thumbnailPath, final String largeThumbnailPath, final String baseUrl)
     {
-        String url = null;
-
-        if (largeThumbnailPath != null)
-            url = String.format(LinkAssemblerConstants.THUMBNAIL_URL, baseUrl, mapId, largeThumbnailPath);
-
-        else if (thumbnailPath != null)
-            url = String.format(LinkAssemblerConstants.THUMBNAIL_URL, baseUrl, mapId, thumbnailPath);
-
-
-        if (url != null)
+        if (largeThumbnailPath != null) { // NOPMD less confusing
+            final String url = String.format(LinkAssemblerConstants.THUMBNAIL_URL, baseUrl, mapId, largeThumbnailPath);
             return createLink(url, LinkAssemblerConstants.THUMBNAIL_NAME, WebLinkType.ThumbnailURL);
-        else
+
+        } else if (thumbnailPath != null) { // NOPMD less confusing
+            final String url = String.format(LinkAssemblerConstants.THUMBNAIL_URL, baseUrl, mapId, thumbnailPath);
+            return createLink(url, LinkAssemblerConstants.THUMBNAIL_NAME, WebLinkType.ThumbnailURL);
+            
+        } else
             return null;
     }
 
