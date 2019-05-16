@@ -24,6 +24,8 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -31,6 +33,7 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  *
  * @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArcGisDataCiteConstants
 {
     public static final String PUBLISHER = "Esri";
@@ -38,14 +41,6 @@ public class ArcGisDataCiteConstants
     public static final List<AbstractResearch> RESEARCH_DISCIPLINES = createResearchDisciplines();
     public static final String VIEW_URL = "%s/home/item.html?id=%s";
     public static final WebLink ESRI_LOGO_LINK = createEsriLogoLink();
-
-
-    /**
-     * Private Constructor, because this is a static class.
-     */
-    private ArcGisDataCiteConstants()
-    {
-    }
 
 
     /**

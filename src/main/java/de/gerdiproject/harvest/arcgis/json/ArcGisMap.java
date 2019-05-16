@@ -20,45 +20,45 @@ import java.util.List;
 import com.google.gson.JsonArray;
 
 import de.gerdiproject.json.geo.Point;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * Information about an ArcGis map.
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class ArcGisMap
 {
-    private String id;
-    private String owner;
-    private long created;
-    private long modified;
-    private String name;
-    private String title;
-    private String type;
-    private List<String> typeKeywords;
-    private String description;
-    private List<String> tags;
-    private String snippet;
-    private String thumbnail;
-    private List<Point> extent;
-    private JsonArray categories;
-    private String spatialReference;
-    private String accessInformation;
-    private String licenseInfo;
-    private String culture;
-    private String url;
-    private String access;
-    private int size;
-    private JsonArray appCategories;
-    private JsonArray industries;
-    private JsonArray languages;
-    private String largeThumbnail;
-    private JsonArray screenshots;
-    private boolean listed;
-    private int numComments;
-    private int numRatings;
-    private float avgRating;
-    private int numViews;
+    private final String id;
+    private final String owner;
+    private final long created;
+    private final long modified;
+    private final String name;
+    private final String title;
+    private final String type;
+    private final List<String> typeKeywords;
+    private final String description;
+    private final List<String> tags;
+    private final String snippet;
+    private final String thumbnail;
+    private final List<Point> extent;
+    private final JsonArray categories;
+    private final String spatialReference;
+    private final String accessInformation;
+    private final String licenseInfo;
+    private final String culture;
+    private final String url;
+    private final String access;
+    private final int size;
+    private final JsonArray appCategories;
+    private final JsonArray industries;
+    private final JsonArray languages;
+    private final String largeThumbnail;
+    private final JsonArray screenshots;
+    private final boolean listed;
+    private final int numComments;
+    private final int numRatings;
+    private final float avgRating;
+    private final int numViews;
 }

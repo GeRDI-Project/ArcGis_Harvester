@@ -15,7 +15,16 @@
  */
 package de.gerdiproject.harvest.arcgis.constants;
 
+import java.lang.reflect.Type;
 import java.util.regex.Pattern;
+
+import com.google.gson.reflect.TypeToken;
+
+import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
+import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -23,6 +32,7 @@ import java.util.regex.Pattern;
  *
  * @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArcGisConstants
 {
     public static final String MAPS_URL = "%s/sharing/rest/search?q=%%20group%%3A%s%%20&sortField=title&sortOrder=asc&start=%d&num=100&f=json";
@@ -40,10 +50,7 @@ public class ArcGisConstants
 
     public static final String USER_PROFILE_URL = "http://www.arcgis.com/sharing/rest/community/users/%s?f=json";
 
-    /**
-     * Private Constructor, because this is a static class.
-     */
-    private ArcGisConstants()
-    {
-    }
+    public static final Type MAPS_RESPONSE_TYPE = new TypeToken<GenericArcGisResponse<ArcGisMap>>() {} .getType();
+    public static final Type FEATURED_GROUPS_RESPONSE_TYPE = new TypeToken<GenericArcGisResponse<ArcGisFeaturedGroup>>() {} .getType();
+
 }

@@ -17,7 +17,7 @@ package de.gerdiproject.harvest.arcgis.json;
 
 import java.util.List;
 
-import lombok.Data;
+import lombok.Value;
 
 /**
  * This class represents a response to an ArcGis user request.
@@ -25,20 +25,20 @@ import lombok.Data;
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class ArcGisUser
 {
-    private String username;
-    private String fullName;
-    private String firstName;
-    private String lastName;
-    private String description;
-    private List<String> tags;
-    private String culture;
-    private String region;
-    private String units;
-    private String thumbnail;
-    private long created;
-    private long modified;
-    private String provider;
+    private final String username;
+    private final String fullName;
+    private final String firstName;
+    private final String lastName;
+    private final String description;
+    private final List<String> tags;
+    private final String culture;
+    private final String region;
+    private final String units;
+    private final String thumbnail;
+    private final long created;
+    private final long modified;
+    private final String provider;
 }

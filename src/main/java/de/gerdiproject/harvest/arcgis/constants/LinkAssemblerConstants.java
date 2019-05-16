@@ -15,6 +15,8 @@
  */
 package de.gerdiproject.harvest.arcgis.constants;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * A static collection of constants, used for assembling web links and file downloads of ArcGis maps.
@@ -22,6 +24,7 @@ package de.gerdiproject.harvest.arcgis.constants;
  *
  * @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LinkAssemblerConstants
 {
     public static final String FEATURE_COLLECTION_TYPE = "Feature Collection";
@@ -64,12 +67,4 @@ public class LinkAssemblerConstants
     public static final String ARC_GIS_DESKTOP_URL_WEB_MAP = "http://esri.maps.arcgis.com/sharing/rest/content/items/%s/item.pkinfo";
     public static final String SCENE_VIEWER_URL_MAP_SERVICE = "http://esri.maps.arcgis.com/home/webscene/viewer.html?layers=%s";
     public static final String SCENE_VIEWER_URL_WEB_SCENE = "http://esri.maps.arcgis.com/home/webscene/viewer.html?webscene=%s";
-
-
-    /**
-     * Private Constructor, because this is a static class.
-     */
-    private LinkAssemblerConstants()
-    {
-    }
 }

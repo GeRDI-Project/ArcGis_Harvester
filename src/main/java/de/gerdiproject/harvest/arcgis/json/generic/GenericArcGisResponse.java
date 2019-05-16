@@ -17,7 +17,7 @@ package de.gerdiproject.harvest.arcgis.json.generic;
 
 import java.util.List;
 
-import lombok.Data;
+import lombok.Value;
 
 
 /**
@@ -25,13 +25,13 @@ import lombok.Data;
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class GenericArcGisResponse<T>
 {
-    private String query;
-    private int total;
-    private int start;
-    private int num;
-    private int nextStart;
-    private List<T> results;
+    private final String query;
+    private final int total;
+    private final int start;
+    private final int num;
+    private final int nextStart;
+    private final List<T> results;
 }

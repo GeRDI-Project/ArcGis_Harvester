@@ -27,6 +27,7 @@ import de.gerdiproject.harvest.arcgis.constants.ArcGisDataCiteConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.etls.extractors.ArcGisMapVO;
 import de.gerdiproject.harvest.etls.transformers.utils.ArcGisLinkAssembler;
 import de.gerdiproject.json.datacite.Creator;
@@ -74,7 +75,14 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
 
 
     @Override
-    protected DataCiteJson transformElement(ArcGisMapVO vo) throws TransformerException
+    public void init(final AbstractETL<?, ?> etl)
+    {
+        // nothing to initialize
+    }
+
+
+    @Override
+    protected DataCiteJson transformElement(final ArcGisMapVO vo) throws TransformerException
     {
         if (this.groupRelatedSubjects == null)
             this.groupRelatedSubjects = createGroupTags(vo.getFeaturedGroups());
@@ -432,5 +440,12 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
                                               )
                       );
         return subjects;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

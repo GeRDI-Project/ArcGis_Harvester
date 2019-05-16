@@ -26,8 +26,7 @@ import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
-import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
-import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 
@@ -72,7 +71,8 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         super.init(etl);
 
         final String mapsUrl = String.format(ArcGisConstants.MAPS_INFO_URL, baseUrl, groupId);
-        final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
+        final GenericArcGisResponse<ArcGisMap> mapsQueryResult =
+            httpRequester.getObjectFromUrl(mapsUrl, ArcGisConstants.MAPS_RESPONSE_TYPE);
         this.size = mapsQueryResult.getTotal();
         this.version = mapsQueryResult.getQuery() + size;
 
@@ -99,6 +99,13 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
     protected Iterator<ArcGisMapVO> extractAll() throws ExtractorException
     {
         return new ArcGisMapsIterator();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 
@@ -192,7 +199,10 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
             groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, StandardCharsets.UTF_8.displayName()));
 
             // retrieve details of gallery group
-            return httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisFeaturedGroupsResponse.class).getResults();
+            final GenericArcGisResponse<ArcGisFeaturedGroup> response =
+                httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisConstants.FEATURED_GROUPS_RESPONSE_TYPE);
+
+            return response.getResults();
 
         } catch (UnsupportedEncodingException e) {
             // this should never happen, because UTF-8 is a valid encoding

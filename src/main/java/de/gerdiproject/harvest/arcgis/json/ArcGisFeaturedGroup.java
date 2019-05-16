@@ -17,18 +17,18 @@ package de.gerdiproject.harvest.arcgis.json;
 
 import java.util.List;
 
-import lombok.Data;
+import lombok.Value;
 
 /**
  * A featured group of maps.
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class ArcGisFeaturedGroup
 {
-    private String title;
-    private String owner;
-    private String id;
-    private List<String> tags;
+    private final String title;
+    private final String owner;
+    private final String id;
+    private final List<String> tags;
 }
