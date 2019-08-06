@@ -305,7 +305,7 @@ public class ArcGisLinkHelper
         } else if (thumbnailPath != null) { // NOPMD less confusing
             final String url = String.format(LinkAssemblerConstants.THUMBNAIL_URL, baseUrl, mapId, thumbnailPath);
             return createLink(url, LinkAssemblerConstants.THUMBNAIL_NAME, WebLinkType.ThumbnailURL);
-            
+
         } else
             return null;
     }
