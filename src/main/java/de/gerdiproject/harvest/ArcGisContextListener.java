@@ -40,7 +40,7 @@ public class ArcGisContextListener extends ContextListener
     @Override
     protected List<? extends AbstractETL<?, ?>> createETLs()
     {
-        List<AbstractETL<?, ?>> etlList = new LinkedList<>();
+        final List<AbstractETL<?, ?>> etlList = new LinkedList<>();
 
         // add Esri harvesters
         etlList.addAll(createETLsForURL(ArcGisConstants.ESRI_BASE_URL, ArcGisConstants.ESRI_SUFFIX));
@@ -60,15 +60,15 @@ public class ArcGisContextListener extends ContextListener
      *
      * @return a list of {@linkplain AbstractETL}s for harvesting all featured groups of an ArcGis host
      */
-    private static List<AbstractETL<?, ?>> createETLsForURL(String baseUrl, String nameSuffix)
+    private static List<AbstractETL<?, ?>> createETLsForURL(final String baseUrl, final String nameSuffix)
     {
         // retrieve list of groups from ArcGis
-        List<ArcGisFeaturedGroup> groups = getFeaturedGroupsFromOverview(baseUrl);
+        final List<ArcGisFeaturedGroup> groups = getFeaturedGroupsFromOverview(baseUrl);
 
-        List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
+        final List<AbstractETL<?, ?>> arcGisHarvesters = new LinkedList<>();
 
         // create sub-harvesters
-        for (ArcGisFeaturedGroup g : groups) {
+        for (final ArcGisFeaturedGroup g : groups) {
             final String groupId = g.getId();
             final String harvesterName = g.getTitle().replace(' ', '-') + nameSuffix;
 
@@ -86,7 +86,7 @@ public class ArcGisContextListener extends ContextListener
      *
      * @return a list of featured groups
      */
-    private static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(String baseUrl)
+    private static List<ArcGisFeaturedGroup> getFeaturedGroupsFromOverview(final String baseUrl)
     {
         final HttpRequester httpRequester = new HttpRequester();
 
@@ -97,13 +97,13 @@ public class ArcGisContextListener extends ContextListener
         List<ArcGisFeaturedGroup> featuredGroups;
 
         // check if the featured groups array has group IDs
-        boolean hasFeaturedGroupIDs = overviewObj.getFeaturedGroups().get(0).getId() != null;
+        final boolean hasFeaturedGroupIDs = overviewObj.getFeaturedGroups().get(0).getId() != null;
 
         if (hasFeaturedGroupIDs)
             featuredGroups = overviewObj.getFeaturedGroups();
         else {
             // if the featured groups are missing IDs, get them via another request
-            String galleryQuery = overviewObj.getLivingAtlasGroupQuery();
+            final String galleryQuery = overviewObj.getLivingAtlasGroupQuery();
             featuredGroups = ArcGisExtractor.getFeaturedGroupsByQuery(httpRequester, baseUrl, galleryQuery);
         }
 

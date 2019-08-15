@@ -24,6 +24,8 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -31,6 +33,7 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  *
  * @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArcGisDataCiteConstants
 {
     public static final String PUBLISHER = "Esri";
@@ -41,20 +44,12 @@ public class ArcGisDataCiteConstants
 
 
     /**
-     * Private Constructor, because this is a static class.
-     */
-    private ArcGisDataCiteConstants()
-    {
-    }
-
-
-    /**
      * Creates a weblink that points to the Esri logo.
      * @return a weblink that points to the Esri logo
      */
     private static WebLink createEsriLogoLink()
     {
-        WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");
+        final WebLink logoLink = new WebLink("https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png");
         logoLink.setType(WebLinkType.ProviderLogoURL);
         return logoLink;
     }

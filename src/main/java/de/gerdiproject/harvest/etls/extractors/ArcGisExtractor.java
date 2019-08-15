@@ -26,8 +26,7 @@ import de.gerdiproject.harvest.arcgis.constants.ArcGisConstants;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
-import de.gerdiproject.harvest.arcgis.json.compound.ArcGisFeaturedGroupsResponse;
-import de.gerdiproject.harvest.arcgis.json.compound.ArcGisMapsResponse;
+import de.gerdiproject.harvest.arcgis.json.generic.GenericArcGisResponse;
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 
@@ -38,13 +37,14 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  */
 public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
 {
-    private final HttpRequester httpRequester;
-    private final String baseUrl;
-    private final String groupId;
+    // protected fields accessed by the inner iterator class
+    protected final HttpRequester httpRequester;
+    protected final String baseUrl;
+    protected final String groupId;
+    protected List<ArcGisFeaturedGroup> featuredGroups;
 
-    private int size;
+    private int mapCount;
     private String version;
-    private List<ArcGisFeaturedGroup> featuredGroups;
 
 
     /**
@@ -53,11 +53,11 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
      * @param baseUrl the ArcGis base URL
      * @param groupId an identifier indicating which area is harvested
      */
-    public ArcGisExtractor(String baseUrl, String groupId)
+    public ArcGisExtractor(final String baseUrl, final String groupId)
     {
         super();
 
-        this.size = -1;
+        this.mapCount = -1;
         this.version = null;
         this.baseUrl = baseUrl;
         this.groupId = groupId;
@@ -67,14 +67,15 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
         final String mapsUrl = String.format(ArcGisConstants.MAPS_INFO_URL, baseUrl, groupId);
-        final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
-        this.size = mapsQueryResult.getTotal();
-        this.version = mapsQueryResult.getQuery() + size;
+        final GenericArcGisResponse<ArcGisMap> mapsQueryResult =
+            httpRequester.getObjectFromUrl(mapsUrl, ArcGisConstants.MAPS_RESPONSE_TYPE);
+        this.mapCount = mapsQueryResult.getTotal();
+        this.version = mapsQueryResult.getQuery() + mapCount;
 
         // get featured groups related to the maps
         this.featuredGroups = getFeaturedGroupsByQuery(httpRequester, baseUrl, groupId);
@@ -91,7 +92,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
     @Override
     public int size()
     {
-        return size;
+        return mapCount;
     }
 
 
@@ -99,6 +100,13 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
     protected Iterator<ArcGisMapVO> extractAll() throws ExtractorException
     {
         return new ArcGisMapsIterator();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 
@@ -120,7 +128,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         public ArcGisMapsIterator()
         {
             this.startIndex = 1;
-            getNextBatch();
+            downloadNextBatch();
         }
 
 
@@ -136,7 +144,7 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         {
             // request the next batch of 100 maps
             if (!currentBatch.hasNext())
-                getNextBatch();
+                downloadNextBatch();
 
 
             final ArcGisMap map = currentBatch.next();
@@ -151,10 +159,11 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
         /**
          * Extracts a batch of {@linkplain ArcGisMap}s.
          */
-        private void getNextBatch()
+        private void downloadNextBatch()
         {
             final String mapsUrl = String.format(ArcGisConstants.MAPS_URL, baseUrl, groupId, startIndex);
-            final ArcGisMapsResponse mapsQueryResult = httpRequester.getObjectFromUrl(mapsUrl, ArcGisMapsResponse.class);
+            final GenericArcGisResponse<ArcGisMap> mapsQueryResult =
+                httpRequester.getObjectFromUrl(mapsUrl, ArcGisConstants.MAPS_RESPONSE_TYPE);
 
             this.currentBatch = mapsQueryResult.getResults().iterator();
             this.startIndex = mapsQueryResult.getNextStart();
@@ -168,9 +177,9 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
          *
          * @return details of the map owner
          */
-        private ArcGisUser getUser(ArcGisMap map)
+        private ArcGisUser getUser(final ArcGisMap map)
         {
-            String url = String.format(ArcGisConstants.USER_PROFILE_URL, map.getOwner());
+            final String url = String.format(ArcGisConstants.USER_PROFILE_URL, map.getOwner());
             return httpRequester.getObjectFromUrl(url, ArcGisUser.class);
         }
     }
@@ -185,16 +194,19 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
      *
      * @return a list of detailed featured groups
      */
-    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(HttpRequester httpRequester, String baseUrl, String query)
+    public static List<ArcGisFeaturedGroup> getFeaturedGroupsByQuery(final HttpRequester httpRequester, final String baseUrl, final String query)
     {
         try {
             String groupDetailsUrl = baseUrl + ArcGisConstants.GROUP_DETAILS_URL_SUFFIX;
             groupDetailsUrl = String.format(groupDetailsUrl, URLEncoder.encode(query, StandardCharsets.UTF_8.displayName()));
 
             // retrieve details of gallery group
-            return httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisFeaturedGroupsResponse.class).getResults();
+            final GenericArcGisResponse<ArcGisFeaturedGroup> response =
+                httpRequester.getObjectFromUrl(groupDetailsUrl, ArcGisConstants.FEATURED_GROUPS_RESPONSE_TYPE);
 
-        } catch (UnsupportedEncodingException e) {
+            return response.getResults();
+
+        } catch (final UnsupportedEncodingException e) {
             // this should never happen, because UTF-8 is a valid encoding
             return null;
         }

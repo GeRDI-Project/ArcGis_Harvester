@@ -21,14 +21,14 @@ import java.util.List;
 import de.gerdiproject.harvest.arcgis.json.ArcGisFeaturedGroup;
 import de.gerdiproject.harvest.arcgis.json.ArcGisMap;
 import de.gerdiproject.harvest.arcgis.json.ArcGisUser;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * This value object contains extracted data related to an ArcGIS map.
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class ArcGisMapVO
 {
     private final ArcGisMap map;

@@ -34,7 +34,7 @@ public class ArcGisETL extends StaticIteratorETL<ArcGisMapVO, DataCiteJson>
      * @param baseUrl the host of the maps
      * @param groupId the unique ID of the group of maps that is to be harvested
      */
-    public ArcGisETL(String groupName, String baseUrl, String groupId)
+    public ArcGisETL(final String groupName, final String baseUrl, final String groupId)
     {
         super(
             groupName,
