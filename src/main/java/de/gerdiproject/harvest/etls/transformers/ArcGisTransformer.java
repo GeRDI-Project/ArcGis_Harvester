@@ -47,8 +47,8 @@ import de.gerdiproject.json.datacite.enums.ResourceTypeGeneral;
 import de.gerdiproject.json.datacite.enums.TitleType;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.nested.Affiliation;
 import de.gerdiproject.json.datacite.nested.PersonName;
-import de.gerdiproject.json.geo.Point;
 
 /**
  * This {@linkplain AbstractIteratorTransformer} transforms {@linkplain ArcGisMap}s
@@ -256,8 +256,10 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         creator.setGivenName(owner.getFirstName());
         creator.setFamilyName(owner.getLastName());
 
-        if (owner.getProvider() != null)
-            creator.addAffiliations(Arrays.asList(owner.getProvider()));
+        final String provider = owner.getProvider();
+
+        if (provider != null)
+            creator.addAffiliations(Arrays.asList(new Affiliation(provider)));
 
         return Arrays.asList(creator);
     }
@@ -298,17 +300,19 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
     private List<GeoLocation> getGeoLocations(final ArcGisMap map)
     {
         // get the two points that describe the map boundaries
-        final List<Point> extent = map.getExtent();
+        final List<List<Double>> extent = map.getExtent();
 
         if (extent == null || extent.isEmpty())
             return null;
 
-        final Point northWest = extent.get(0);
-        final Point southEast = extent.get(1);
+        final double northWestLongitude = extent.get(0).get(0);
+        final double northWestLatitude = extent.get(0).get(1);
+        final double southEastLongitude = extent.get(1).get(0);
+        final double southEastLatitude = extent.get(1).get(1);
 
         // create box
         final GeoLocation geoBox = new GeoLocation();
-        geoBox.setBox(northWest.getLongitude(), southEast.getLongitude(), southEast.getLatitude(), northWest.getLongitude());
+        geoBox.setBox(northWestLongitude, southEastLongitude, southEastLatitude, northWestLatitude);
 
         final List<GeoLocation> geoList = new LinkedList<>();
         geoList.add(geoBox);
