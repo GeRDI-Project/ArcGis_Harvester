@@ -24,6 +24,7 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import de.gerdiproject.json.datacite.nested.Publisher;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -36,7 +37,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArcGisDataCiteConstants
 {
-    public static final String PUBLISHER = "Esri";
+    public static final Publisher PUBLISHER = new Publisher("Esri");
     public static final String REPOSITORY_ID = "ArcGIS";
     public static final List<AbstractResearch> RESEARCH_DISCIPLINES = createResearchDisciplines();
     public static final String VIEW_URL = "%s/home/item.html?id=%s";

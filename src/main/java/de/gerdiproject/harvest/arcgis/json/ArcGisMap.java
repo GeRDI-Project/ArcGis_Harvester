@@ -19,7 +19,6 @@ import java.util.List;
 
 import com.google.gson.JsonArray;
 
-import de.gerdiproject.json.geo.Point;
 import lombok.Value;
 
 /**
@@ -42,7 +41,7 @@ public class ArcGisMap
     private final List<String> tags;
     private final String snippet;
     private final String thumbnail;
-    private final List<Point> extent;
+    private final List<List<Double>> extent;
     private final JsonArray categories;
     private final String spatialReference;
     private final String accessInformation;
