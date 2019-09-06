@@ -17,7 +17,7 @@
 	<inceptionYear>2017</inceptionYear>
 
 	<properties>
-		<restfulharvester.dependency.version>8.0.0</restfulharvester.dependency.version>
+		<restfulharvester.dependency.version>8.0.1</restfulharvester.dependency.version>
 	</properties>
 
 	<dependencies>
