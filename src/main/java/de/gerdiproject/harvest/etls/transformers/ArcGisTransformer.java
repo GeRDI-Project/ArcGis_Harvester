@@ -17,7 +17,6 @@
 package de.gerdiproject.harvest.etls.transformers;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -144,7 +143,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final String titleText = map.getTitle();
 
         if (titleText != null) {
-            final Title mainTitle = new Title(titleText);
+            final Title mainTitle = new Title(titleText.trim());
             mainTitle.setLang(map.getCulture());
 
             titles.add(mainTitle);
@@ -154,7 +153,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final String altTitleText = map.getName();
 
         if (altTitleText != null) {
-            final Title alternativeTitle = new Title(altTitleText);
+            final Title alternativeTitle = new Title(altTitleText.trim());
             alternativeTitle.setType(TitleType.AlternativeTitle);
             alternativeTitle.setLang(map.getCulture());
 
@@ -210,31 +209,18 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final List<AbstractDate> dates = new LinkedList<>();
 
         // add the date of the creation of the map
-        dates.add(new Date(map.getCreated(), DateType.Created));
+        if (map.getCreated() != null)
+            dates.add(new Date(map.getCreated(), DateType.Created));
 
         // add the date of the last modification of the map
-        dates.add(new Date(map.getModified(), DateType.Updated));
-
-        // add dates that relate to the map data itself
-
-        // get map tags
-        final List<String> mapTags = map.getTags();
-        final Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
+        if (map.getModified() != null)
+            dates.add(new Date(map.getModified(), DateType.Updated));
 
         // look for years in the map tags
-        final Calendar cal = Calendar.getInstance();
-
-        for (final String tag : mapTags) {
-
-            // check if the tag is a year
-            if (yearPattern.matcher(tag).matches()) {
-                final int year = Integer.parseInt(tag);
-
-                // convert year to timestamp
-                cal.set(year, 0, 1);
-
-                // add year to dates
-                dates.add(new Date(cal.getTimeInMillis(), DateType.Collected));
+        if (map.getTags() != null) {
+            for (final String tag : map.getTags()) {
+                if (ArcGisConstants.YEAR_PATTERN.matcher(tag).matches())
+                    dates.add(new Date(tag, DateType.Collected));
             }
         }
 
@@ -251,6 +237,9 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
      */
     private List<Creator> getCreators(final ArcGisUser owner)
     {
+        if (owner == null)
+            return null;
+
         final PersonName name = new PersonName(owner.getFullName(), NameType.Personal);
         final Creator creator = new Creator(name);
         creator.setGivenName(owner.getFirstName());
@@ -333,24 +322,24 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
 
         final Pattern yearPattern = ArcGisConstants.YEAR_PATTERN;
         final String language = map.getCulture();
-        List<String> tags = map.getTags();
 
         // add tags
-        tags.forEach((final String tag) -> {
-            // only add tag if it is not a year
-            if (!yearPattern.matcher(tag).matches())
-            {
-                final Subject s = new Subject(tag);
-                s.setLang(language);
-                subjects.add(s);
+        if (map.getTags() != null) {
+            for (final String tag : map.getTags()) {
+                // only add tag if it is not a year
+                if (!yearPattern.matcher(tag).matches()) {
+                    final Subject s = new Subject(tag);
+                    s.setLang(language);
+                    subjects.add(s);
+                }
             }
-        });
+        }
 
         // add type keywords
-        tags = map.getTypeKeywords();
-        tags.forEach((final String tag) ->
-                     subjects.add(new Subject(tag))
-                    );
+        if (map.getTypeKeywords() != null) {
+            for (final String keyword : map.getTypeKeywords())
+                subjects.add(new Subject(keyword));
+        }
 
         // add spatial reference
         final String spatialRefName = map.getSpatialReference();
@@ -373,7 +362,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
     private List<WebLink> getWebLinks(final ArcGisMap map)
     {
         final String mapId = map.getId();
-        final String mapType = map.getType();
+        final String mapType = map.getType().trim();
         final String mapUrl = map.getUrl();
         final String thumbnailPath = map.getThumbnail();
         final String largeThumbnailPath = map.getLargeThumbnail();
@@ -426,6 +415,7 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         return files.isEmpty() ? null : files;
     }
 
+
     /**
      * Creates a list of {@linkplain Subject}s that are related to groups of maps.
      *
@@ -438,11 +428,12 @@ public class ArcGisTransformer extends AbstractIteratorTransformer<ArcGisMapVO, 
         final List<Subject> subjects = new LinkedList<>();
 
         // convert each tag of each group to a subject
-        groups.forEach((final ArcGisFeaturedGroup group) ->
-                       group.getTags().forEach((final String tag) ->
-                                               subjects.add(new Subject(tag))
-                                              )
-                      );
+        if (groups != null) {
+            for (final ArcGisFeaturedGroup group : groups)
+                for (final String tag : group.getTags())
+                    subjects.add(new Subject(tag));
+        }
+
         return subjects;
     }
 

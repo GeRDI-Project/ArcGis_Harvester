@@ -32,7 +32,7 @@ public class LinkAssemblerConstants
     public static final String MOBILE_APP_TYPE = "Mobile Application";
     public static final String WEB_APP_TYPE = "Web Mapping Application";
     public static final String DOCUMENT_LINK_TYPE = "Document Link";
-    public static final String WEB_SCENE_TYPE = "Web Scene  ";
+    public static final String WEB_SCENE_TYPE = "Web Scene";
     public static final String WEB_MAP_TYPE = "Web Map";
     public static final String CODE_ATTACHMENT_TYPE = "Code Attachment";
     public static final String MAP_SERVICE_TYPE = "Map Service";

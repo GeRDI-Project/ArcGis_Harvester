@@ -1,0 +1,7 @@
+{
+	"map" : {
+		"id" : "123",
+		"type" : "Vector Tile Service",
+		"url" : "http://www.mo.ck/123"
+	}
+}

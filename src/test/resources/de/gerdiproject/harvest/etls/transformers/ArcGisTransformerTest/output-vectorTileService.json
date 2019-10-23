@@ -1,0 +1,47 @@
+{
+	"publisher" : {
+		"value" : "Esri"
+	},
+	"resourceType" : {
+		"value" : "Vector Tile Service",
+		"resourceTypeGeneral" : "Model"
+	},
+	"repositoryIdentifier" : "ArcGIS",
+	"webLinks" : [
+		{
+			"webLinkURI" : "www.mo.ck//home/item.html?id\u003d123",
+			"webLinkName" : "View map on arcgis.com",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/sharing/rest/content/items/123/resources/styles/root.json?f\u003dpjson",
+			"webLinkName" : "View Style"
+		},
+		{
+			"webLinkURI" : "https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/home/webscene/viewer.html?layers\u003d123",
+			"webLinkName" : "Open in Scene Viewer"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/home/webmap/viewer.html?useExisting\u003d1\u0026layers\u003d123",
+			"webLinkName" : "View map on arcgis.com"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-01",
+			"discipline" : "Physical Geography"
+		},
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-02",
+			"discipline" : "Human Geography"
+		}
+	]
+}

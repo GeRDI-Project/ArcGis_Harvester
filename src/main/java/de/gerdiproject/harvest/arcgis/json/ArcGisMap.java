@@ -31,8 +31,8 @@ public class ArcGisMap
 {
     private final String id;
     private final String owner;
-    private final long created;
-    private final long modified;
+    private final Long created;
+    private final Long modified;
     private final String name;
     private final String title;
     private final String type;

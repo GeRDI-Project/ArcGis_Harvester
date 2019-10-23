@@ -1,0 +1,51 @@
+{
+	"publisher" : {
+		"value" : "Esri"
+	},
+	"resourceType" : {
+		"value" : "Image Service",
+		"resourceTypeGeneral" : "Model"
+	},
+	"repositoryIdentifier" : "ArcGIS",
+	"webLinks" : [
+		{
+			"webLinkURI" : "www.mo.ck//home/item.html?id\u003d123",
+			"webLinkName" : "View map on arcgis.com",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/home/signin.html?returnUrl\u003dhttp%3A%2F%2Fesri.maps.arcgis.com%2Fhome%2Fwebmap%2Fviewer.html%3FuseExisting%3D1%26layers%3D123",
+			"webLinkName" : "View map on arcgis.com"
+		},
+		{
+			"webLinkURI" : "https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/home/webscene/viewer.html?layers\u003d123",
+			"webLinkName" : "Open in Scene Viewer"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://esri.maps.arcgis.com/sharing/rest/content/items/123/item.pitem",
+			"researchDataLabel" : "ArcGis Desktop",
+			"researchDataIdentifier" : "-678010731",
+			"researchDataType" : "pitem"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-01",
+			"discipline" : "Physical Geography"
+		},
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-02",
+			"discipline" : "Human Geography"
+		}
+	]
+}
