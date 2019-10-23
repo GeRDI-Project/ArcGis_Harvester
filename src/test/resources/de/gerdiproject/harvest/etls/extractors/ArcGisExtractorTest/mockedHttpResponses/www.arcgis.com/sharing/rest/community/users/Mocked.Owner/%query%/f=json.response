@@ -1,0 +1,15 @@
+{
+	"username" : "Mocked.Owner",
+	"fullName" : "Mocky McMock",
+	"firstName" : "Mocky",
+	"lastName" : "McMock",
+	"description" : "I think ArcGis is a pretty cool guy. Eh hosts maps and doesn't afraid of anything.",
+	"tags" : [],
+	"culture" : "mc",
+	"region" : "MC",
+	"units" : "yes",
+	"thumbnail" : "mockedImages/owner-thumbnail.jpg",
+	"created" : 946782245000,
+	"modified" : 946782245001,
+	"provider" : "MockedProvider"
+}

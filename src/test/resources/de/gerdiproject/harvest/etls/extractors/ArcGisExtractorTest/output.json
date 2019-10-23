@@ -1,0 +1,149 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Mocky McMock",
+				"nameType" : "Personal"
+			},
+			"givenName" : "Mocky",
+			"familyName" : "McMock",
+			"affiliation" : [
+				{
+					"value" : "MockedProvider"
+				}
+			]
+		}
+	],
+	"titles" : [
+		{
+			"value" : "Mocked Name",
+			"titleType" : "AlternativeTitle",
+			"lang" : "mo-ck"
+		},
+		{
+			"value" : "MockedTitle",
+			"lang" : "mo-ck"
+		}
+	],
+	"publisher" : {
+		"value" : "Esri"
+	},
+	"resourceType" : {
+		"value" : "Mocked Type",
+		"resourceTypeGeneral" : "Model"
+	},
+	"subjects" : [
+		{
+			"value" : "MockedKeyword_1"
+		},
+		{
+			"value" : "MockedKeyword_3"
+		},
+		{
+			"value" : "MockedTag_3",
+			"lang" : "mo-ck"
+		},
+		{
+			"value" : "MockedGroupTag1"
+		},
+		{
+			"value" : "MockedTag_2",
+			"lang" : "mo-ck"
+		},
+		{
+			"value" : "mocked spatial reference"
+		},
+		{
+			"value" : "MockedGroupTag3"
+		},
+		{
+			"value" : "MockedKeyword_2"
+		},
+		{
+			"value" : "MockedGroupTag2"
+		},
+		{
+			"value" : "MockedTag_1",
+			"lang" : "mo-ck"
+		}
+	],
+	"dates" : [
+		{
+			"value" : "2000-01-02T03 : 04 : 05Z",
+			"dateType" : "Created"
+		},
+		{
+			"value" : "2000-01-02T03 : 04 : 05.001Z",
+			"dateType" : "Updated"
+		},
+		{
+			"value" : "1234-01-01T00 : 00 : 00Z",
+			"dateType" : "Collected"
+		}
+	],
+	"language" : "mo-ck",
+	"rightsList" : [
+		{
+			"value" : "mocked license info"
+		}
+	],
+	"descriptions" : [
+		{
+			"value" : "Mocked Snippet!",
+			"descriptionType" : "Abstract",
+			"lang" : "mo-ck"
+		},
+		{
+			"value" : "Mocked Description.",
+			"descriptionType" : "Abstract",
+			"lang" : "mo-ck"
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationBox" : {
+				"type" : "Polygon",
+				"coordinates" : [
+					[
+						[-139.0257, 41.6709],
+						[-139.0257 ,60.029],
+						[-52.1452, 60.029],
+						[-52.1452, 41.6709],
+						[-139.0257, 41.6709]
+					]
+				]
+			}
+		}
+	],
+	"repositoryIdentifier" : "ArcGIS",
+	"webLinks" : [
+		{
+			"webLinkURI" : "www.mo.ck//home/item.html?id\u003d1337a1337b1337c1337d1337e1337f42",
+			"webLinkName" : "View map on arcgis.com",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "www.mo.ck//sharing/rest/content/items/1337a1337b1337c1337d1337e1337f42/info/mockedImages/large-thumbnail.png",
+			"webLinkName" : "Thumbnail",
+			"webLinkType" : "ThumbnailURL"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-01",
+			"discipline" : "Physical Geography"
+		},
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-02",
+			"discipline" : "Human Geography"
+		}
+	]
+}

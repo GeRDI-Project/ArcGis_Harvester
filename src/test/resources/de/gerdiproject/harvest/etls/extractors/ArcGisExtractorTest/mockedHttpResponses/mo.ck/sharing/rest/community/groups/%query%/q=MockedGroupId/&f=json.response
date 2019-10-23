@@ -1,0 +1,19 @@
+{
+	"query" : "MockedGroupID",
+	"total" : 1,
+	"start" : 1,
+	"num" : 10,
+	"nextStart" : -1,
+	"results" : [
+		{
+			"title" : "MockedGroupName",
+			"owner" : "Mocked User Name",
+			"id" : "MockedGroupID",
+			"tags" : [
+				"MockedGroupTag1",
+				"MockedGroupTag2",
+				"MockedGroupTag3"
+			]
+		}
+	]
+}
