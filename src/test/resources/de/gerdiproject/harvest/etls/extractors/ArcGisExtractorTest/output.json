@@ -1,149 +1,74 @@
 {
-	"creators" : [
+	"map" : {
+		"id" : "1337a1337b1337c1337d1337e1337f42",
+		"owner" : "Mocked.Owner",
+		"created" : 946782245000,
+		"modified" : 946782245001,
+		"title" : "\n\n\n\n\n\nMockedTitle",
+		"name" : "Mocked Name",
+		"type" : "Mocked Type",
+		"typeKeywords" : [
+			"MockedKeyword_1",
+			"MockedKeyword_2",
+			"MockedKeyword_3"
+		],
+		"description" : "Mocked Description.",
+		"tags" : [
+			"MockedTag_1",
+			"MockedTag_2",
+			"MockedTag_3",
+			"1234"
+		],
+		"snippet" : "Mocked Snippet!",
+		"thumbnail" : "mockedImages/thumbnail.jpg",
+		"extent" : [
+			[-139.0257, 41.6709],
+			[-52.1452, 60.029]
+		],
+		"categories" : [],
+		"spatialReference" : "mocked spatial reference",
+		"accessInformation" : "mocked access info",
+		"licenseInfo" : "mocked license info",
+		"culture" : "mo-ck",
+		"url" : "http : //www.mo.ck/index.html?appid\u003d1337a1337b1337c1337d1337e1337f42",
+		"access" : "public",
+		"size" : 42,
+		"appCategories" : [],
+		"industries" : [],
+		"languages" : [],
+		"largeThumbnail" : "mockedImages/large-thumbnail.png",
+		"screenshots" : [],
+		"listed" : false,
+		"numComments" : 101,
+		"numRatings" : 69,
+		"avgRating" : 1.01,
+		"numViews" : 9000
+	},
+	"owner" : {
+		"username" : "Mocked.Owner",
+		"fullName" : "Mocky McMock",
+		"firstName" : "Mocky",
+		"lastName" : "McMock",
+		"description" : "I think ArcGis is a pretty cool guy. Eh hosts maps and doesn't afraid of anything.",
+		"tags" : [],
+		"culture" : "mc",
+		"region" : "MC",
+		"units" : "yes",
+		"thumbnail" : "mockedImages/owner-thumbnail.jpg",
+		"created" : 946782245000,
+		"modified" : 946782245001,
+		"provider" : "MockedProvider"
+	},
+	"featuredGroups" : [
 		{
-			"creatorName" : {
-				"value" : "Mocky McMock",
-				"nameType" : "Personal"
-			},
-			"givenName" : "Mocky",
-			"familyName" : "McMock",
-			"affiliation" : [
-				{
-					"value" : "MockedProvider"
-				}
+			"title" : "MockedGroupName",
+			"owner" : "Mocked User Name",
+			"id" : "MockedGroupID",
+			"tags" : [
+				"MockedGroupTag1",
+				"MockedGroupTag2",
+				"MockedGroupTag3"
 			]
-		}
-	],
-	"titles" : [
-		{
-			"value" : "Mocked Name",
-			"titleType" : "AlternativeTitle",
-			"lang" : "mo-ck"
-		},
-		{
-			"value" : "MockedTitle",
-			"lang" : "mo-ck"
-		}
-	],
-	"publisher" : {
-		"value" : "Esri"
-	},
-	"resourceType" : {
-		"value" : "Mocked Type",
-		"resourceTypeGeneral" : "Model"
-	},
-	"subjects" : [
-		{
-			"value" : "MockedKeyword_1"
-		},
-		{
-			"value" : "MockedKeyword_3"
-		},
-		{
-			"value" : "MockedTag_3",
-			"lang" : "mo-ck"
-		},
-		{
-			"value" : "MockedGroupTag1"
-		},
-		{
-			"value" : "MockedTag_2",
-			"lang" : "mo-ck"
-		},
-		{
-			"value" : "mocked spatial reference"
-		},
-		{
-			"value" : "MockedGroupTag3"
-		},
-		{
-			"value" : "MockedKeyword_2"
-		},
-		{
-			"value" : "MockedGroupTag2"
-		},
-		{
-			"value" : "MockedTag_1",
-			"lang" : "mo-ck"
-		}
-	],
-	"dates" : [
-		{
-			"value" : "2000-01-02T03 : 04 : 05Z",
-			"dateType" : "Created"
-		},
-		{
-			"value" : "2000-01-02T03 : 04 : 05.001Z",
-			"dateType" : "Updated"
-		},
-		{
-			"value" : "1234-01-01T00 : 00 : 00Z",
-			"dateType" : "Collected"
-		}
-	],
-	"language" : "mo-ck",
-	"rightsList" : [
-		{
-			"value" : "mocked license info"
-		}
-	],
-	"descriptions" : [
-		{
-			"value" : "Mocked Snippet!",
-			"descriptionType" : "Abstract",
-			"lang" : "mo-ck"
-		},
-		{
-			"value" : "Mocked Description.",
-			"descriptionType" : "Abstract",
-			"lang" : "mo-ck"
-		}
-	],
-	"geoLocations" : [
-		{
-			"geoLocationBox" : {
-				"type" : "Polygon",
-				"coordinates" : [
-					[
-						[-139.0257, 41.6709],
-						[-139.0257 ,60.029],
-						[-52.1452, 60.029],
-						[-52.1452, 41.6709],
-						[-139.0257, 41.6709]
-					]
-				]
-			}
-		}
-	],
-	"repositoryIdentifier" : "ArcGIS",
-	"webLinks" : [
-		{
-			"webLinkURI" : "www.mo.ck//home/item.html?id\u003d1337a1337b1337c1337d1337e1337f42",
-			"webLinkName" : "View map on arcgis.com",
-			"webLinkType" : "ViewURL"
-		},
-		{
-			"webLinkURI" : "https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png",
-			"webLinkType" : "ProviderLogoURL"
-		},
-		{
-			"webLinkURI" : "www.mo.ck//sharing/rest/content/items/1337a1337b1337c1337d1337e1337f42/info/mockedImages/large-thumbnail.png",
-			"webLinkName" : "Thumbnail",
-			"webLinkType" : "ThumbnailURL"
-		}
-	],
-	"researchDisciplines" : [
-		{
-			"area" : "Geography",
-			"category" : "Natural Sciences",
-			"rnbr" : "317-01",
-			"discipline" : "Physical Geography"
-		},
-		{
-			"area" : "Geography",
-			"category" : "Natural Sciences",
-			"rnbr" : "317-02",
-			"discipline" : "Human Geography"
 		}
 	]
 }
