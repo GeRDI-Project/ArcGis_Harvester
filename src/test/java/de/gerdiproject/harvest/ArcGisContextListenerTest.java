@@ -24,4 +24,11 @@ import de.gerdiproject.harvest.application.AbstractContextListenerTest;
  */
 public class ArcGisContextListenerTest extends AbstractContextListenerTest<ArcGisContextListener>
 {
+
+    @Override
+    protected int getMaxInitializationTime()
+    {
+        return 10000;
+    }
+    
 }
