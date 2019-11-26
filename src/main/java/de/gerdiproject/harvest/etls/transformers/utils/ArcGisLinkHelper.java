@@ -239,7 +239,7 @@ public class ArcGisLinkHelper
      */
     public static WebLink getMetadataLink(final String mapId, final List<String> mapTypeKeywords)
     {
-        if (mapTypeKeywords.contains(LinkAssemblerConstants.METADATA_TYPE_KEYWORD))
+        if (mapTypeKeywords != null && mapTypeKeywords.contains(LinkAssemblerConstants.METADATA_TYPE_KEYWORD))
             return createLink(
                        String.format(LinkAssemblerConstants.METADATA_URL, mapId),
                        LinkAssemblerConstants.METADATA_VIEWER_NAME,
@@ -260,10 +260,10 @@ public class ArcGisLinkHelper
      */
     public static WebLink getOpenDocumentLink(final String mapType, final String mapUrl)
     {
-        if (mapUrl != null && mapType.equals(LinkAssemblerConstants.DOCUMENT_LINK_TYPE))
-            return createLink(mapUrl, LinkAssemblerConstants.DOCUMENT_VIEWER_NAME, null);
-        else
+        if (mapUrl == null || !mapType.equals(LinkAssemblerConstants.DOCUMENT_LINK_TYPE))
             return null;
+        else
+            return createLink(mapUrl, LinkAssemblerConstants.DOCUMENT_VIEWER_NAME, null);
     }
 
 

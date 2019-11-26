@@ -1,0 +1,47 @@
+{
+	"publisher" : {
+		"value" : "Esri"
+	},
+	"resourceType" : {
+		"value" : "Web Map",
+		"resourceTypeGeneral" : "Model"
+	},
+	"repositoryIdentifier" : "ArcGIS",
+	"webLinks" : [
+		{
+			"webLinkURI" : "www.mo.ck//home/item.html?id\u003d123",
+			"webLinkName" : "View map on arcgis.com",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "https://livingatlas.arcgis.com/emu/tailcoat/images/tailcoat/logo-esri.png",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://esri.maps.arcgis.com/home/webmap/viewer.html?webmap\u003d123",
+			"webLinkName" : "View map on arcgis.com"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://esri.maps.arcgis.com/sharing/rest/content/items/123/item.pkinfo",
+			"researchDataLabel" : "ArcGis Desktop",
+			"researchDataIdentifier" : "458031703",
+			"researchDataType" : "pkinfo"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-01",
+			"discipline" : "Physical Geography"
+		},
+		{
+			"area" : "Geography",
+			"category" : "Natural Sciences",
+			"rnbr" : "317-02",
+			"discipline" : "Human Geography"
+		}
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"map" : {
+		"id" : "123",
+		"type" : "Layer Package",
+		"name" : "Super.MockedMapName",
+		"url" : "http://www.mo.ck/123"
+	}
+}

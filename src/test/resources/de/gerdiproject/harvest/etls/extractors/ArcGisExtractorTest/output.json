@@ -1,0 +1,74 @@
+{
+	"map" : {
+		"id" : "1337a1337b1337c1337d1337e1337f42",
+		"owner" : "Mocked.Owner",
+		"created" : 946782245000,
+		"modified" : 946782245001,
+		"title" : "\n\n\n\n\n\nMockedTitle",
+		"name" : "Mocked Name",
+		"type" : "Mocked Type",
+		"typeKeywords" : [
+			"MockedKeyword_1",
+			"MockedKeyword_2",
+			"MockedKeyword_3"
+		],
+		"description" : "Mocked Description.",
+		"tags" : [
+			"MockedTag_1",
+			"MockedTag_2",
+			"MockedTag_3",
+			"1234"
+		],
+		"snippet" : "Mocked Snippet!",
+		"thumbnail" : "mockedImages/thumbnail.jpg",
+		"extent" : [
+			[-139.0257, 41.6709],
+			[-52.1452, 60.029]
+		],
+		"categories" : [],
+		"spatialReference" : "mocked spatial reference",
+		"accessInformation" : "mocked access info",
+		"licenseInfo" : "mocked license info",
+		"culture" : "mo-ck",
+		"url" : "http : //www.mo.ck/index.html?appid\u003d1337a1337b1337c1337d1337e1337f42",
+		"access" : "public",
+		"size" : 42,
+		"appCategories" : [],
+		"industries" : [],
+		"languages" : [],
+		"largeThumbnail" : "mockedImages/large-thumbnail.png",
+		"screenshots" : [],
+		"listed" : false,
+		"numComments" : 101,
+		"numRatings" : 69,
+		"avgRating" : 1.01,
+		"numViews" : 9000
+	},
+	"owner" : {
+		"username" : "Mocked.Owner",
+		"fullName" : "Mocky McMock",
+		"firstName" : "Mocky",
+		"lastName" : "McMock",
+		"description" : "I think ArcGis is a pretty cool guy. Eh hosts maps and doesn't afraid of anything.",
+		"tags" : [],
+		"culture" : "mc",
+		"region" : "MC",
+		"units" : "yes",
+		"thumbnail" : "mockedImages/owner-thumbnail.jpg",
+		"created" : 946782245000,
+		"modified" : 946782245001,
+		"provider" : "MockedProvider"
+	},
+	"featuredGroups" : [
+		{
+			"title" : "MockedGroupName",
+			"owner" : "Mocked User Name",
+			"id" : "MockedGroupID",
+			"tags" : [
+				"MockedGroupTag1",
+				"MockedGroupTag2",
+				"MockedGroupTag3"
+			]
+		}
+	]
+}

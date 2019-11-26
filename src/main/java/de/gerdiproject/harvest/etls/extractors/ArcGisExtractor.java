@@ -146,7 +146,6 @@ public class ArcGisExtractor extends AbstractIteratorExtractor<ArcGisMapVO>
             if (!currentBatch.hasNext())
                 downloadNextBatch();
 
-
             final ArcGisMap map = currentBatch.next();
             return new ArcGisMapVO(
                        map,
